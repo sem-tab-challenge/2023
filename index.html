@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Semantic Web Challenge on Tabular Data to Knowledge Graph Matching</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <nav id="navbar" class="navbar navbar-expand-lg bg-light sticky-top">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">SemTab 2023</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                    <a class="nav-link" href="#program">Program</a>
+                </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#forum">Participate!</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTracks" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Tracks
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownTracks">
+                            <li>
+                                <a class="dropdown-item" href="#accuracy-track">Accuracy Track</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#datasets-track">Datasets Track</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#artifacts-track">Artifacts Availability Badge</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#dates">Important dates</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRounds" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Datasets and Tasks
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownRounds">
+                            <li>
+                                <a class="dropdown-item" href="#round1">Round #1</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#round2">Round #2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- <li class="nav-item">
+                    <a class="nav-link" href="#results">Results</a>
+                </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#paper">Paper Guidelines</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#organisation">Organisation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#acknowledgements">Acknowledgements</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPast" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Past editions
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownPast">
+                            <li>
+                                <a class="dropdown-item" href="https://sem-tab-challenge.github.io/2022/"
+                                    target="_blank">SemTab 2022</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2021/index.html"
+                                    target="_blank">SemTab 2021</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2020/index.html"
+                                    target="_blank">SemTab 2020</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="http://www.cs.ox.ac.uk/isg/challenges/sem-tab/2019/index.html"
+                                    target="_blank">SemTab 2019</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--<div class="alert alert-warning" role="alert">-->
+    <!--  <b>News (09/03/2022):</b> The <a class="alert-link" href="http://ceur-ws.org/Vol-3103/" target="_blank">SemTab 2021 proceedings</a> are out. <a href="#results" class="alert-link">Results</a> and <a href="#gt" class="alert-link">ground</a> truths are available.-->
+    <!--</div>-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 col-9" data-bs-spy="scroll" data-bs-target="#navbar"
+                data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
+                <h2 class="title display-6" id="about">
+                    <i class="bi bi-trophy"></i>
+                    About the Challenge
+                </h2>
+
+
+                <p>
+                    Tabular data in the form of CSV files is the common input format in
+                    a data analytics pipeline. However, a lack of understanding of the
+                    semantic structure and meaning of the content may hinder the data
+                    analytics process. Thus gaining this semantic understanding will be
+                    very valuable for data integration, data cleaning, data mining,
+                    machine learning and knowledge discovery tasks. For example,
+                    understanding what the data is can help assess what sorts of
+                    transformation are appropriate on the data.
+                </p>
+
+                <p>
+                    Tables on the Web may also be the source of highly valuable data.
+                    The addition of semantic information to Web tables may enhance a
+                    wide range of applications, such as web search, question answering,
+                    and knowledge base (KB) construction.
+                </p>
+
+                <p>
+                    Tabular data to Knowledge Graph (KG) matching is the process of
+                    assigning semantic tags from Knowledge Graphs (e.g., Wikidata or
+                    DBpedia) to the elements of the table. This task however is often
+                    difficult in practice due to metadata (e.g., table and column names)
+                    being missing, incomplete or ambiguous.
+                </p>
+
+                <p>
+                    The <a href="http://www.cs.ox.ac.uk/isg/challenges/sem-tab/">SemTab challenge</a>
+                    aims at benchmarking systems dealing with the tabular data to KG
+                    matching problem, so as to facilitate their comparison on the same
+                    basis and the reproducibility of the results.
+                </p>
+
+                <p>
+                    The <b>2023 edition</b> of this challenge will be collocated with the
+                    <a href="https://iswc2023.semanticweb.org/" target="_blank">
+                        22st International Semantic Web Conference
+                    </a>
+                    and the
+                    <a href="http://om2023.ontologymatching.org/" target="_blank">18th International Workshop on
+                        Ontology Matching</a>.
+                </p>
+
+
+                <h2 class="title display-6 pt-5" id="proceedings">
+                    <i class="bi bi-book"></i>
+                    Proceedings
+                </h2>
+
+                <p> SemTab papers will be published as a volume of CEUR-WS.
+                    <!-- Preliminary version of the system and dataset papers
+                are available <a href="https://drive.google.com/drive/folders/1T7euw-3eEhF2XcHHTuu6HHgsz0kElJ6S?usp=sharing" target="_blank">here</a>. -->
+                </p>
+
+
+                <h2 class="title display-6 pt-5" id="forum">
+                    <i class="bi bi-chat-square-text"></i>
+                    Participation: Forum and Registration
+                </h2>
+
+                <p>
+                    We have a
+                    <a href="https://groups.google.com/d/forum/sem-tab-challenge" target="_blank">discussion group</a>
+                    for the challenge where we share the latest news with the
+                    participants and we discuss issues risen during the evaluation
+                    rounds.
+                </p>
+
+                <p>
+                    Please register your system using this
+                    <a href="https://bit.ly/semtab2023-participation" target="_blank">google form</a>.
+                </p>
+
+                <p>
+                    Note that participants can join SemTab at any Round for any of the
+                    tasks/tracks.
+                </p>
+
+                <h2 class="title display-6 pt-5" id="tracks">
+                    <i class="bi bi-layout-wtf"></i>
+                    Challenge Tracks
+                </h2>
+
+                <h3 class="pt-4" id="accuracy-track">Accuracy Track</h3>
+
+                The evaluation of systems regarding accuracy is similar to prior
+                versions of the SemTab.
+                <br />
+                That is, to illustrate the accuracy of the submissions, we evaluate
+                systems on typical multi-class classification metrics as detailed
+                below.
+                <br />
+                In addition, we adopt the "cscore" for the CTA task to reflect the
+                distance in the type hierarchy between the predicted column type and
+                the ground truth semantic type.
+                <br />
+                <br />
+                <br />
+                Matching Tasks:
+                <ul>
+                    <li>
+                        <b>CTA Task</b>: Assigning a semantic type (a DBpedia class as
+                        fine-grained as possible) to a column.
+                    </li>
+                    <li><b>CEA Task</b>: Matching a cell to a Wikidata entity.</li>
+                    <li>
+                        <b>CPA Task</b>: Assigning a KG property to the relationship
+                        between two columns.
+                    </li>
+                </ul>
+
+                Matching Criteria:
+                <ul>
+                    <li>Average Precision</li>
+                    <li>Average Recall</li>
+                    <li>Average F1</li>
+                    <li>Cscore</li>
+                </ul>
+
+                <h3 class="pt-4" id="datasets-track">Datasets Track</h3>
+
+                The data that table-to-Knowledge-Graph matching systems are trained
+                and evaluated on, is critical for their accuracy and relevance.
+                <br />
+                We invite dataset submissions that provide challenging and accessible
+                new datasets to advance the state-of-the-art of table-to-KG matching
+                systems.
+                <br />
+                Preferably, these datasets provide tables along with their ground
+                truth annotations for at least one of CEA, CTA and CPA tasks.
+                <br />
+                The dataset may be general or specific to a certain domain.
+                <br />
+                <br />
+                Submissions will be evaluated according to provide the following:
+                <ul>
+                    <li>
+                        Description of the data collection, curation, and annotation
+                        processes.
+                    </li>
+                    <li>
+                        Availability of documentation with insights in the dataset
+                        content.
+                    </li>
+                    <li>
+                        Publicly accessible link to the dataset (e.g. Zenodo) and its DOI.
+                    </li>
+                    <li>Explanation of maintenance and long-term availability.</li>
+                    <li>Clear description of the envisioned use-cases.</li>
+                    <li>
+                        Application in which the dataset is used to solve an exemplar
+                        task.
+                    </li>
+                </ul>
+
+                We ask participants to describe their datasets submissions via
+                <a href="https://easychair.org/conferences/?conf=semtab2023" target="_blank">easychair</a>
+                in a short paper (max 6 pages) that discusses how the above
+                criteria are covered, while also including a link to the resources.
+                The link to the resources may be private, until the submission is
+                evaluated by the SemTab organisers. See paper guidelines below, for
+                more details. More guidance for creating, documenting and publishing
+                datasets can be found
+                <a href="https://neurips.cc/Conferences/2022/CallForDatasetsBenchmarks" target="_blank">here</a>.
+
+                <h3 class="pt-4" id="artifacts-track">Artifacts Availability Badge</h3>
+
+                New this year is the Artifacts Availability Badge which is applicable
+                to the Accuracy Track as well as the Datasets Track.
+                <br />
+                The goal of this badge is to motivate authors to publish and document
+                their systems, code, and data, so that others can use these artifacts
+                and potentially reproduce or build on the results.
+                <br />
+                This badge is given if all resources are verified to satisfy the below
+                criteria.
+                <br />
+                <br />
+                The criteria used to assess submissions (both accuracy and dataset
+                submissions) are:
+                <ul>
+                    <li>Publicly accessible data (if applicable).</li>
+                    <li>Publicly accessible source code.</li>
+                    <li>Clear documentation of the code and data.</li>
+                    <li>Open-source dependencies.</li>
+                </ul>
+
+                <h2 class="title display-6 pt-5" id="dates">
+                    <i class="bi bi-calendar"></i>
+                    Important dates
+                </h2>
+
+                All dates 2023, deadlines 11:59pm AoE:
+                <ul>
+                    <li><b>March 30</b>: First call for challenge participants.</li>
+                    <li><b>March 30 - May 1</b>: Round 1.</li>
+                    <li><b>May 15 - June 22</b>: Round 2.</li>
+                    <li>
+                        <b>June 26</b>: Paper submissions (Systems and Datasets).
+                        <!-- (via <a href="https://easychair.org/conferences/?conf=semtab2023" target="_blank">easychair</a>), 
+                        and artifact publication. -->
+                    </li>
+                    <li><b>July 19</b>: System results.</li>
+                    <li>
+                        <b>July 19</b>: Invitations to present at the
+                        <a href="https://iswc2023.semanticweb.org/" target="_blank">ISWC 2023 conference</a>.
+                    </li>
+                    <li><b>September 15</b>: Submission of Final papers.
+                        <!-- (via <a href="https://easychair.org/conferences/?conf=semtab2023" target="_blank">easychair</a>) -->
+                    </li>
+                    <li>
+                        <b>November 6 - 10</b>: Challenge presentation during OM workshop.
+                    </li>
+                    <li>
+                        <b>November 6 - 10</b>: Challenge Presentation during ISWC.
+                    </li>
+                </ul>
+
+
+                <h2 class="title display-6 pt-5" id="tasks">
+                    <i class="bi bi-table"></i>
+                    Datasets and tasks per round
+                </h2>
+
+                <h3 class="pt-4" id="round1">Round #1</h3>
+                <div class="alert alert-primary d-flex align-items-center" role="alert">
+                    <i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
+                    March 30 - May 1
+                </div>
+
+
+                <h3 class="pt-4" id="round2">Round #2</h3>
+                <div class="alert alert-primary d-flex align-items-center" role="alert">
+                    <i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
+                    May 15 - June 22
+                </div>
+
+                <!-- <h2 class="title display-6 pt-5" id="results">
+            <i class="bi bi-trophy"></i>
+            Testing Results
+        </h2>
+        
+                    
+        <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <a href="https://docs.google.com/spreadsheets/d/1DgX4JX1aQkDNrRSW4l54yFT7zdnnI6EKanXvGoXww9I/edit?usp=sharing">Round
+                #1</a>
+        </div>
+        
+        <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <a href="https://docs.google.com/spreadsheets/d/16prYkaqGdvF0VpaYsmswe82_6kdOd0jNiIOjhp3EIOQ/edit?usp=sharing">Round #2</a>
+        </div>
+
+        <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <a href="https://docs.google.com/spreadsheets/d/1Y51kIKwjZRTC8wma15KPqLOEiMJ1dfnq19-eHPSaChI/edit?usp=sharing">Round #3</a>
+        </div> -->
+
+                <h2 class="title display-6 pt-5" id="paper">
+                    <i class="bi bi-journal-check"></i>
+                    Paper Guidelines
+                </h2>
+
+                <p>
+                    We invite participants in the Accuracy Track as well as the Datasets Track to submit a paper.
+                    <!-- using <a href="https://easychair.org/my/conference?conf=semtab2023">easychair</a> -->
+                    <br />
+                    System papers in the Accuracy Track should be no more than 12 pages
+                    long (excluding references) and papers for the Datasets Track are
+                    limited to 6 pages.
+                    <br />
+                    If you are submitting to the Datasets Track, please append "[Datasets Track]" at the end of the
+                    paper title.
+                    <br />
+                    Both type of papers should be formatted using the
+                    <a href="https://www.overleaf.com/latex/templates/template-for-submissions-to-ceur-workshop-proceedings-ceur-ws-dot-org/wqyfdgftmcfw"
+                        target="_blank">CEUR Latex template</a>
+                    or the
+                    <a href="https://ceurws.wordpress.com/2020/03/31/ceurws-publishes-ceurart-paper-style/"
+                        target="_blank">CEUR Word template</a>. Papers will be reviewed by 1-2 challenge organisers.
+                </p>
+
+                <p>
+                    Accepted papers will be published as a volume of
+                    <a href="http://ceur-ws.org/" target="_blank">CEUR-WS</a>. By
+                    submitting a paper, the authors accept the CEUR-WS publishing rules.
+                </p>
+
+                <h2 id="organisation" class="title display-6 pt-5">
+                    <i class="bi bi-people"></i>
+                    Organisation
+                </h2>
+
+                <p>
+                    This challenge is organised by
+                    <a href="https://researcher.watson.ibm.com/researcher/view.php?person=ibm-Kavitha.Srinivas"
+                        target="_blank">Kavitha Srinivas</a>
+                    (IBM Research),
+                    <a href="https://www.city.ac.uk/people/academics/ernesto-jimenez-ruiz" target="_blank">Ernesto
+                        Jim&eacute;nez-Ruiz</a>
+                    (City, University of London; University of Oslo),
+                    <a href="https://researcher.watson.ibm.com/researcher/view.php?person=us-hassanzadeh"
+                        target="_blank">Oktie Hassanzadeh</a>
+                    (IBM Research),
+                    <a href="https://www.cs.ox.ac.uk/people/jiaoyan.chen/" target="_blank">Jiaoyan Chen</a>
+                    (University of Oxford),
+                    <a href="https://sites.google.com/site/vefthym/" target="_blank">Vasilis Efthymiou</a>
+                    (FORTH - ICS),
+                    <a href="https://vcutrona.github.io/" target="_blank">Vincenzo Cutrona</a>
+                    (SUPSI),
+                    <a href="https://juansequeda.com/" target="_blank">Juan Sequeda</a>
+                    (data.world),
+                    <a href="https://fusion.cs.uni-jena.de/fusion/members/nora-abdelmageed/" target="_blank">Nora
+                        Abdelmageed</a>
+                    (University of Jena), and
+                    <a href="https://madelonhulsebos.github.io/" target="_blank">Madelon Hulsebos</a>
+                    (Sigma Computing, University of Amsterdam). If you have any problems
+                    working with the datasets or any suggestions related to this
+                    challenge, do not hesitate to contact us via the
+                    <a href="https://groups.google.com/g/sem-tab-challenge">discussion group</a>.
+                </p>
+
+                <h2 id="acknowledgements" class="title display-6 pt-5">
+                    <i class="bi bi-bookmark-star"></i>
+                    Acknowledgements
+                </h2>
+
+                <p>
+                    The challenge is currently supported by the
+                    <a href="http://sirius-labs.no/" target="_blank">SIRIUS Centre for Research-driven Innovation</a>
+                    and
+                    <a href="http://www.research.ibm.com/" target="_blank">IBM Research</a>.
+                </p>
+
+            </div>
+            <div class="col-md-2 col-3 vstack gap-3">
+                <a href="http://sirius-labs.no/" target="_blank">
+                    <img src="logos/sirius-logo.png" class="img-fluid float-lg-end" alt="sirius" width="250" /></a>
+
+                <a href="http://www.cs.ox.ac.uk/" target="_blank">
+                    <img src="logos/cs-oxford.jpg" class="img-fluid float-lg-end" alt="cs-oxford" width="250" /></a>
+
+                <a href="https://www.city.ac.uk/about/schools/mathematics-computer-science-engineering/computer-science"
+                    target="_blank">
+                    <img src="logos/city-logo.jpg" class="img-fluid float-lg-end" alt="city-logo" width="250" /></a>
+
+                <a href="https://www.ibm.com/" target="_blank">
+                    <img src="logos/ibm-logo-small.svg" class="img-fluid float-lg-end" width="250" /></a>
+
+                <a href="https://www.ics.forth.gr/" target="_blank">
+                    <img src="logos/ics-forth.jpg" class="img-fluid float-lg-end" alt="ics-forth" width="250" /></a>
+
+                <a href="https://data.world/" target="_blank">
+                    <img src="logos/data-world.png" class="img-fluid float-lg-end" width="250" /></a>
+
+                <a href="https://www.sigmacomputing.com" target="_blank">
+                    <img src="logos/sigma.png" class="img-fluid float-lg-end" alt="sigma" width="250" /></a>
+
+                <a href="https://indelab.org" target="_blank">
+                    <img src="logos/uva.png" class="img-fluid float-lg-end" alt="uva" width="250" /></a>
+
+                <a href="https://www.uni-jena.de/en" target="_blank">
+                    <img src="logos/jena.png" class="img-fluid float-lg-end" alt="jena" width="250" /></a>
+
+                <a href="https://www.supsi.ch/home_en.html" target="_blank">
+                    <img src="logos/supsi-logo-en.png" class="img-fluid float-lg-end" alt="supsi" width="250" /></a>
+
+                <a href="https://iswc2023.semanticweb.org/" target="_blank">
+                    <img src="logos/iswc2023.png" class="img-fluid float-lg-end" alt="iswc2023" width="250" /></a>
+            </div>
+        </div>
+    </div>
+    <footer>
+
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>
