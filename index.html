@@ -381,36 +381,556 @@
                 </h2>
 
                 <h3 class="pt-4" id="round1">Round #1</h3>
-                <div class="alert alert-primary d-flex align-items-center" role="alert">
+				<!--Round 1 btns------------------------------------------------------------------------------>	
+                <ul class="nav nav-tabs mb-3" id="round1-tasks-tab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button
+								class="nav-link active"
+								id="round1-tfood-td-tab"
+								data-bs-toggle="tab"
+								data-bs-target="#round1-tfood-td-tab-pane"
+								type="button"
+								role="tab"
+								aria-controls="round1-tfood-td-tab-pane"
+								aria-selected="true"
+						>
+							tFood-TD
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+								class="nav-link"
+								id="round1-tfood-cea-tab"
+								data-bs-toggle="tab"
+								data-bs-target="#round1-tfood-cea-tab-pane"
+								type="button"
+								role="tab"
+								aria-controls="round1-tfood-cea-tab-pane"
+								aria-selected="true"
+						>
+							tFood-CEA
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+								class="nav-link"
+								id="round3-gt-cta-dbp-tab"
+								data-bs-toggle="tab"
+								data-bs-target="#round1-tfood-cta-tab-pane"
+								type="button"
+								role="tab"
+								aria-controls="round1-tfood-cta-tab-pane"
+								aria-selected="true"
+						>
+							tFood-CTA
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+					<button
+							class="nav-link"
+							id="round3-gt-cta-dbp-tab"
+							data-bs-toggle="tab"
+							data-bs-target="#round1-tfood-cpa-tab-pane"
+							type="button"
+							role="tab"
+							aria-controls="round1-tfood-cpa-tab-pane"
+							aria-selected="true"
+					>
+						tFood-CPA
+					</button>
+				</li>						
+				<ul>
+				 <div class="alert alert-primary d-flex align-items-center" role="alert">
                     <i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
-                    April 15 - May 15
+                    April 15 - Mar 15
                 </div>
+				
+				<!--Round 1 Content------------------------------------------------------------------------------>				
+				<div class="tab-content" id="round1-tasks-tab-content">
+					<!--Task Block-->
+					<div
+						class="tab-pane fade show active"
+						id="round1-tfood-td-tab-pane"
+						role="tabpanel"
+						aria-labelledby="round1-tfood-td-tab"
+						tabindex="0"
+					>				
+						<h4>tFood Topic Detection (tFood-TD)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge Graph
+							Matching".
+							It's to annotate an entire table to instances/entities or types/classes from <strong>Wikidata</strong> (for offline use: 
+							<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a>).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each table to a KG entity or class.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Use the '<strong>NIL</strong>' annotation when the table should be annotated with a concept
+							that is <strong>NOT</strong> represented in the KG.
+						</div>
+						<p>							
+							Each submission should be a CSV file. 
+							Each line should include a table id and table's annotation (a Wikidata entity/class).							
+						</p>		
 
 
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+								href="https://doi.org/10.5281/zenodo.7828162"
+								target="_blank">(1) tFood dataset at SemTab 2023 Round 1</a>
+							</dd>			
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+								href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
+								target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
+							</dd>
+							
+							
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								<p>The dataset provide:</p>
+								<ul>
+									<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset: 1) Horizontal Relational Tables and 2) Entity Tables.</li>
+									
+									<li><u>Annotation tasks per table type:</u> </li>
+									
+									<li> a) Horizontal Relational Tables										
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)										
+										<br> 3) Column Type Annotation (CTA)
+										<br> 4) Column Property Annotation (CPA)												
+									</li>
+									
+									<li> b) Entity Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)																				
+										<br>										
+									</li>
+									
+									<li><u>Validation/Test splits:</u> the ground truth data for each task is provided in the validation (val) set however, it is not the case with the test set.</li>
+									
+									<li><u>Evaluator Code</u> could be used to evaluate your solutions using the provided ground truth data for the validation (val) set. </li>									
+									
+									<li><u>Evaluation Rules</u>
+										<br> 1) One submission file should have NO duplicate lines for each target column.
+										<!--<br> 2) Annotations for columns out of the target columns are ignored.-->
+										<br> 2) Table ID is the filename of the table data, but does NOT include the extension (i.e. "csv").	
+										<br> 3) The annotation should be represented by its full IRI, where the case is NOT sensitive. 	
+										<br> 4) The headers should be excluded from the submission file.
+									</li>
+									<li><u>Submission File Format</u>
+										<br> General speaking, the submission file should match the format of the provided ground truth file, one file where each line has:
+										<br> TABLE_ID,ANNOTATION
+									</li>
+									
+								</ul>
+							</dd>							
+							
+							
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
+
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
+
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
+
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary score.
+							</li>
+						</ol>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation set).
+						They can weekly <a href="#" target="_blank"> upload </a> their
+						annotations corresponding to the targets (test set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+																
+					</div>						
+					<!--Task Block End-->
+					
+					
+					<!--Task Block-->
+					<div
+						class="tab-pane fade"
+						id="round1-tfood-cea-tab-pane"
+						role="tabpanel"
+						aria-labelledby="round1-tfood-cea-tab"
+						tabindex="0"
+					>				
+						<h4>tFood Cell Entity Annotation (tFood-CEA)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge Graph
+							Matching".
+							It's to annotate an table cell with entities from <strong>Wikidata</strong> (for offline use: 
+							<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a>).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each table cell to a KG entity.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Use the '<strong>NIL</strong>' annotation when the cell should be annotated with a concept
+							that is <strong>NOT</strong> represented in the KG.
+						</div>
+						<p>							
+							Each submission should be a CSV file. 
+							Each line should include a cell (col_id, row_id) identified by table id and
+							cell's annotation (a Wikidata entity).							
+						</p>		
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+								href="https://doi.org/10.5281/zenodo.7828162"
+								target="_blank">(1) tFood dataset at SemTab 2023 Round 1</a>
+							</dd>			
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+								href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
+								target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
+							</dd>
+							
+							
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								<p>The dataset provide:</p>
+								<ul>
+									<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset: 1) Horizontal Relational Tables and 2) Entity Tables.</li>
+									
+									<li><u>Annotation tasks per table type:</u> </li>
+									
+									<li> a) Horizontal Relational Tables										
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)										
+										<br> 3) Column Type Annotation (CTA)
+										<br> 4) Column Property Annotation (CPA)												
+									</li>
+									
+									<li> b) Entity Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)																				
+										<br>										
+									</li>
+									
+									<li><u>Validation/Test splits:</u> the ground truth data for each task is provided in the validation (val) set however, it is not the case with the test set.</li>
+									
+									<li><u>Evaluator Code</u> could be used to evaluate your solutions using the provided ground truth data for the validation (val) set. </li>									
+									
+									<li><u>Evaluation Rules</u>
+										<br> 1) One submission file should have NO duplicate lines for each target column.										
+										<br> 2) Table ID is the filename of the table data, but does NOT include the extension (i.e. "csv").	
+										<br> 3) The annotation should be represented by its full IRI, where the case is NOT sensitive. 	
+										<br> 4) The headers should be excluded from the submission file.
+										<br> 2) Annotations for cells out of the target cells are ignored.
+									</li>
+									<li><u>Submission File Format</u>
+										<br> General speaking, the submission file should match the format of the provided ground truth file, one file where each line has:
+										<br> TABLE_ID,COL_ID,ROW_ID,ANNOTATION
+										
+										<div class="alert alert-warning" role="alert"> 
+										for Horizontal Tables: row_id = 0 means the first row after table header. 
+										<br> for Entity Tables: row_id = 0 means the first row in the file (Entity tables has no horizontal headers to exclude). </div>
+										
+									</li>
+									
+								</ul>
+							</dd>							
+							
+							
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
+
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
+
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
+
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary score.
+							</li>							
+						</ol>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation set).
+						They can weekly <a href="#" target="_blank"> upload </a> their
+						annotations corresponding to the targets (test set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.																			
+
+					</div>						
+					<!--Task Block End-->
+					
+					<!--Task Block-->
+					<div
+						class="tab-pane fade"
+						id="round1-tfood-cta-tab-pane"
+						role="tabpanel"
+						aria-labelledby="round1-tfood-cta-tab"
+						tabindex="0"
+					>				
+						<h4>tFood Column Type Annotation (tFood-CTA)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge Graph
+							Matching".
+							It's to annotate a table column with types from <strong>Wikidata</strong> (for offline use: 
+							<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a>).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each table column to a KG concept.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Use the '<strong>NIL</strong>' annotation when the column should be annotated with a concept
+							that is <strong>NOT</strong> represented in the KG.
+						</div>
+						<p>							
+							Each submission should be a CSV file. 
+							Each line should include a column (col_id) identified by table id and
+							column's annotation (a Wikidata concept).							
+						</p>		
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+								href="https://doi.org/10.5281/zenodo.7828162"
+								target="_blank">(1) tFood dataset at SemTab 2023 Round 1</a>
+							</dd>			
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+								href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
+								target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
+							</dd>
+							
+							
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								<p>The dataset provide:</p>
+								<ul>
+									<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset: 1) Horizontal Relational Tables and 2) Entity Tables.</li>
+									
+									<li><u>Annotation tasks per table type:</u> </li>
+									
+									<li> a) Horizontal Relational Tables										
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)										
+										<br> 3) Column Type Annotation (CTA)
+										<br> 4) Column Property Annotation (CPA)												
+									</li>
+									
+									<li> b) Entity Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)																				
+										<br>										
+									</li>
+									
+									<li><u>Validation/Test splits:</u> the ground truth data for each task is provided in the validation (val) set however, it is not the case with the test set.</li>
+									
+									<li><u>Evaluator Code</u> could be used to evaluate your solutions using the provided ground truth data for the validation (val) set. </li>									
+									
+									<li><u>Evaluation Rules</u>
+										<br> 1) One submission file should have NO duplicate lines for each target column.										
+										<br> 2) Table ID is the filename of the table data, but does NOT include the extension (i.e. "csv").	
+										<br> 3) The annotation should be represented by its full IRI, where the case is NOT sensitive. 	
+										<br> 4) The headers should be excluded from the submission file.
+										<br> 2) Annotations for columns out of the target columns are ignored.
+									</li>
+									<li><u>Submission File Format</u>
+										<br> General speaking, the submission file should match the format of the provided ground truth file, one file where each line has:
+										<br> TABLE_ID,COL_ID,ANNOTATION																												
+									</li>
+									
+								</ul>
+							</dd>							
+							
+							
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
+
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
+
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
+
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary score.
+							</li>							
+						</ol>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation set).
+						They can weekly <a href="#" target="_blank"> upload </a> their
+						annotations corresponding to the targets (test set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.																			
+
+					</div>						
+					<!--Task Block End-->
+					
+					<!--Task Block-->
+					<div
+						class="tab-pane fade"
+						id="round1-tfood-cpa-tab-pane"
+						role="tabpanel"
+						aria-labelledby="round1-tfood-cpa-tab"
+						tabindex="0"
+					>				
+						<h4>tFood Column Property Annotation (tFood-CPA)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge Graph
+							Matching".
+							It's to annotate a table column pair with properties from <strong>Wikidata</strong> (for offline use: 
+							<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a>).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate column pairs to a KG concept.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Use the '<strong>NIL</strong>' annotation when the column should be annotated with a concept
+							that is <strong>NOT</strong> represented in the KG.
+						</div>
+						<p>							
+							Each submission should be a CSV file. 
+							Each line should include a column pair (subj_id, obj_id) identified by table id and
+							column pair's annotation (a Wikidata property).							
+						</p>		
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+								href="https://doi.org/10.5281/zenodo.7828162"
+								target="_blank">(1) tFood dataset at SemTab 2023 Round 1</a>
+							</dd>			
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+								href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
+								target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
+							</dd>
+							
+							
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								<p>The dataset provide:</p>
+								<ul>
+									<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset: 1) Horizontal Relational Tables and 2) Entity Tables.</li>
+									
+									<li><u>Annotation tasks per table type:</u> </li>
+									
+									<li> a) Horizontal Relational Tables										
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)										
+										<br> 3) Column Type Annotation (CTA)
+										<br> 4) Column Property Annotation (CPA)												
+									</li>
+									
+									<li> b) Entity Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)																				
+										<br>										
+									</li>
+									
+									<li><u>Validation/Test splits:</u> the ground truth data for each task is provided in the validation (val) set however, it is not the case with the test set.</li>
+									
+									<li><u>Evaluator Code</u> could be used to evaluate your solutions using the provided ground truth data for the validation (val) set. </li>									
+									
+									<li><u>Evaluation Rules</u>
+										<br> 1) One submission file should have NO duplicate lines for each target column.										
+										<br> 2) Table ID is the filename of the table data, but does NOT include the extension (i.e. "csv").	
+										<br> 3) The annotation should be represented by its full IRI, where the case is NOT sensitive. 	
+										<br> 4) The headers should be excluded from the submission file.
+										<br> 2) Annotations for column-pairs out of the target column-pairs are ignored.
+									</li>
+									<li><u>Submission File Format</u>
+										<br> General speaking, the submission file should match the format of the provided ground truth file, one file where each line has:
+										<br> TABLE_ID,SUBJ_COL_ID,OBJ_COL_ID,ANNOTATION																												
+									</li>
+									
+								</ul>
+							</dd>							
+							
+							
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
+
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
+
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
+
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary score.
+							</li>							
+						</ol>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation set).
+						They can weekly <a href="#" target="_blank"> upload </a> their
+						annotations corresponding to the targets (test set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.																			
+
+					</div>						
+					<!--Task Block End-->
+					
+				<!--Round 2------------------------------------------------------------------------------>				
                 <h3 class="pt-4" id="round2">Round #2</h3>
                 <div class="alert alert-primary d-flex align-items-center" role="alert">
                     <i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
                     May 15 - June 22
                 </div>
 
-                <!-- <h2 class="title display-6 pt-5" id="results">
-            <i class="bi bi-trophy"></i>
-            Testing Results
-        </h2>
-        
-                    
-        <div class="alert alert-primary d-flex align-items-center" role="alert">
-            <a href="https://docs.google.com/spreadsheets/d/1DgX4JX1aQkDNrRSW4l54yFT7zdnnI6EKanXvGoXww9I/edit?usp=sharing">Round
-                #1</a>
-        </div>
-        
-        <div class="alert alert-primary d-flex align-items-center" role="alert">
-            <a href="https://docs.google.com/spreadsheets/d/16prYkaqGdvF0VpaYsmswe82_6kdOd0jNiIOjhp3EIOQ/edit?usp=sharing">Round #2</a>
-        </div>
-
-        <div class="alert alert-primary d-flex align-items-center" role="alert">
-            <a href="https://docs.google.com/spreadsheets/d/1Y51kIKwjZRTC8wma15KPqLOEiMJ1dfnq19-eHPSaChI/edit?usp=sharing">Round #3</a>
-        </div> -->
 
                 <h2 class="title display-6 pt-5" id="paper">
                     <i class="bi bi-journal-check"></i>
@@ -489,6 +1009,8 @@
                 </p>
 
             </div>
+			
+			<!--Logos-->
             <div class="col-md-2 col-3 vstack gap-3">
                 <a href="http://sirius-labs.no/" target="_blank">
                     <img src="logos/sirius-logo.png" class="img-fluid float-lg-end" alt="sirius" width="250" /></a>
