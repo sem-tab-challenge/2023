@@ -1685,6 +1685,13 @@
 								R2-SOTAB-CPA-DBP
 							</button>
 						</li>
+                        <li class="nav-item" role="presentation">
+							<button class="nav-link" id="round2-cqa-tab" data-bs-toggle="tab"
+								data-bs-target="#round2-cqa-tab-pane" type="button" role="tab"
+								aria-controls="round2-cqa-tab-pane" aria-selected="false">
+								R2-CQA
+							</button>
+						</li>
 					</ul>
 
 						<div class="alert alert-primary d-flex align-items-center" role="alert">
@@ -2121,6 +2128,106 @@
 								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
 								</div>
 							</div>
+                            <!--Task Block End-->
+                            <!--Task Block SOTAB CTA-->
+							<div class="tab-pane fade show active" id="round2-cqa-pane" role="tabpanel"
+								aria-labelledby="round2-cqa-tab" tabindex="0">
+								<h4>Column-Qualifier Annotation (R2-QA)</h4>
+								<p>
+									<b>R2-CQA</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+									Data to Knowledge Graph Matching".
+									The goal of this task is to predict both main properties and qualifiers from Wikidata for n-ary relations that are expressed by three table columns. This dataset is further explaned here: <a href="https://github.com/bennokr/semtab2023-CQA/">https://github.com/bennokr/semtab2023-CQA/</a> .
+								</p>
+                                <h5>Task description</h5>
+<p dir="auto">The goal of this task is to predict both main properties and qualifiers from Wikidata for n-ary relations that are expressed by three table columns. For example, given the following table about Oscar nominations:</p>
+<p>
+    <style>
+        #r2-cqa-example * {
+            padding:.5em; border:1px solid black;  border-collapse: collapse;
+        }
+    </style>
+    <table id="r2-cqa-example">
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Academy Award for Best Actor</td>
+<td>2000(73rd)</td>
+<td>Russell Crowe</td>
+<td>Gladiator</td>
+<td>Maximus Decimus Meridius</td>
+</tr>
+<tr>
+<td>Academy Award for Best Actor</td>
+<td>2000(73rd)</td>
+<td>Javier Bardem</td>
+<td>Before Night Falls</td>
+<td>Reinaldo Arenas</td>
+</tr>
+<tr>
+<td>Academy Award for Best Actor</td>
+<td>2000(73rd)</td>
+<td>Ed Harris</td>
+<td>Pollock</td>
+<td>Jackson Pollock</td>
+</tr>
+</tbody>
+                                </table></p>
+<p dir="auto">the main property "nominated for" (<a href="https://www.wikidata.org/wiki/Property:P1411" rel="nofollow">P1411</a>) holds between columns <strong>2</strong> and <strong>0</strong> (the <em>subject</em> and <em>object column</em>), which is expanded upon with the qualifier "for work" (<a href="https://www.wikidata.org/wiki/Property:P1686" rel="nofollow">1686</a>) in column <strong>3</strong> (the <em>qualifier column</em>). This property-qualifier pair describes the n-ary relation that holds between these three columns.</p>
+<p dir="auto">In this repository you will find an example evaluation dataset (<code>simple</code>) with a baseline, and a full dataset for the SemTab2023 challenge (<a href="https://github.com/bennokr/semtab2023-CQA/raw/main/full-semtab2023-CQA.zip">full-semtab2023-CQA.zip</a>) which includes training data. In both datasets, the file <code>task.csv</code> specifies which columns in each table should be annotated with properties and qualifiers. Submissions must fill in the empty cells, and will be evaluated on their accuracy of predicting the correct property-qualifier pair (see <a href="https://github.com/bennokr/semtab2023-CQA/blob/main/evaluate.py">evaluate.py</a>).</p>
+								<div class="alert alert-warning" role="alert">
+									Annotate columns using identifiers from <code>wikidata_main_property_labels.csv</code> and <code>wikidata_qualifier_labels.csv</code>.
+								</div>
+								<p>
+                                    Each submission should be a CSV file formatted in the same way as the <code>solution.csv</code> file of the <code>simple</code> dataset.
+								</p>
+								<!--<p>
+								<h6>Explanations:</h6>
+								<ul>
+									<li></li>
+								</ul>
+								</p>-->
+
+
+								<h5>Dataset</h5>
+								<dl class="row">
+									<dt class="col-sm-3">Dataset repository</dt>
+									<dd class="col-sm-9"><a href="https://github.com/bennokr/semtab2023-CQA/">https://github.com/bennokr/semtab2023-CQA/</a> (includes <a href="https://github.com/bennokr/semtab2023-CQA/blob/main/baseline.ipynb">baseline code notebook</a>)
+									</dd>
+                                    <dt class="col-sm-3">Link</dt>
+                                    <dd class="col-sm-9"><a
+											href="https://github.com/bennokr/semtab2023-CQA/raw/main/full-semtab2023-CQA.zip"
+											target="_blank">Full dataset for R2-CQA</a> (includes training data).
+									</dd>
+									<!--<dt class="col-sm-3">Description</dt>
+									<dd class="col-sm-9">
+										The datasets zip file includes:
+										<ul>
+											<li></li>
+										</ul>
+									</dd>-->
+
+								</dl>
+
+								<h5>Evaluation Criteria</h5>
+								<p>
+									Submissions will be evaluated on their accuracy of predicting the correct property-qualifier pair (see <a href="https://github.com/bennokr/semtab2023-CQA/blob/main/evaluate.py">evaluate.py</a>).
+								</p>
+
+								<h5>Submission</h5>
+
+								Please name your submission files as YOURTEAM_CQA.csv.
+								<div class="alert alert-warning" role="alert"> <a href="#">Submission URL</a>
+								</div>
+							</div>
+							<!--Task Block End-->
 
 						</div>
 
