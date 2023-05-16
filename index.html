@@ -448,7 +448,7 @@
 							R1-SOTAB-CPA-SCH
 						</button>
 					</li>
-					<ul>
+				</ul>
 						<div class="alert alert-primary d-flex align-items-center" role="alert">
 							<i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
 							April 15 - May 15
@@ -1649,98 +1649,564 @@
 								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
 								</div>
 							</div>
+						</div>
+						
+						<!--Round 2------------------------------------------------------------------------------>
+						<h3 class="pt-4" id="round2">Round #2</h3>
 
-							<!--Round 2------------------------------------------------------------------------------>
-							<h3 class="pt-4" id="round2">Round #2</h3>
-							<div class="alert alert-primary d-flex align-items-center" role="alert">
-								<i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
-								May 15 - June 22
+					<!--Round 2 btns------------------------------------------------------------------------------>
+
+					<ul class="nav nav-tabs mb-3" id="round2-tasks-tab" role="tablist">
+						<li class="nav-item active" role="presentation">
+							<button class="nav-link active" id="round2-sotab-cta-tab" data-bs-toggle="tab"
+								data-bs-target="#round2-sotab-cta-tab-pane" type="button" role="tab"
+								aria-controls="round2-sotab-cta-tab-pane" aria-selected="true">
+								R2-SOTAB-CTA-SCH
+							</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="round2-sotab-cpa-tab" data-bs-toggle="tab"
+								data-bs-target="#round2-sotab-cpa-tab-pane" type="button" role="tab"
+								aria-controls="round2-sotab-cpa-tab-pane" aria-selected="false">
+								R2-SOTAB-CPA-SCH
+							</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="round2-sotab-cta-tab" data-bs-toggle="tab"
+								data-bs-target="#round2-sotab-cta-dbp-tab-pane" type="button" role="tab"
+								aria-controls="round2-sotab-cta-dbp-tab-pane" aria-selected="false">
+								R2-SOTAB-CTA-DBP
+							</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="round2-sotab-cpa-tab" data-bs-toggle="tab"
+								data-bs-target="#round2-sotab-cpa-dbp-tab-pane" type="button" role="tab"
+								aria-controls="round2-sotab-cpa-dbp-tab-pane" aria-selected="false">
+								R2-SOTAB-CPA-DBP
+							</button>
+						</li>
+					</ul>
+
+						<div class="alert alert-primary d-flex align-items-center" role="alert">
+							<i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
+							May 15 - June 22
+						</div>
+
+						<!--Round 2 Content------------------------------------------------------------------------------>
+						<div class="tab-content" id="round2-tasks-tab-content">
+							<!--Task Block SOTAB CTA-->
+							<div class="tab-pane fade show active" id="round2-sotab-cta-tab-pane" role="tabpanel"
+								aria-labelledby="round2-sotab-cta-tab" tabindex="0">
+								<h4>Column Type Annotation using Schema.org terms (R2-SOTAB-CTA-SCH)</h4>
+								<p>
+									<b>R2-SOTAB-CTA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+									Data to Knowledge Graph Matching".
+									It is based on the <a
+										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+										benchmark</a>.
+									The goal is to annotate
+									table columns with pre-defined terms from the Schema.org vocabulary.
+								</p>
+								<h5>Task Description</h5>
+								<p>
+									In this task, the goal is to annotate the semantic types of table columns using
+									terms from a pre-defined set of Schema.org terms.
+									The problem is formulated as a multi-class classification problem where each column
+									can be annotated with only one type. The set of pre-defined
+									Schema.org terms consists of 80 terms which are listed in the
+									"cta_labels_round2.txt" file. Examples include telephone, Duration or Place/name.
+								</p>
+								<div class="alert alert-warning" role="alert">
+									Annotate columns using terms from the "cta_labels_round2.txt".
+								</div>
+								<p>
+									Each submission should be a CSV file. A line should represent one column prediction.
+									The first column should specify the name of the table, the second column should
+									specify the index of the column in the table
+									and the third column should specify the predicted label. The columns should be
+									named: "table_name", "column_index", "label".
+								</p>
+								<p>
+								<h6>Explanations:</h6>
+								<ul>
+									<li>"table_name" column should include the full name of the table including the
+										extension. (example: Product_corememoriesco.com_September2020_CTA.json.gz)</li>
+									<li>"column_index" refers to the position of the column in the table. Column indices
+										in a table start from 0.</li>
+									<li>"label" refers to the predicted label. One column should have only one predicted
+										label.</li>
+								</ul>
+								</p>
+
+
+								<h5>Dataset</h5>
+								<dl class="row">
+									<dt class="col-sm-3">Links</dt>
+									<dd class="col-sm-9"><a
+											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-Tables.zip"
+											target="_blank">(1) R2-SOTAB-CTA Tables at SemTab 2023 Round 2</a>
+									</dd>
+									<dt class="col-sm-3">Description</dt>
+									<dd class="col-sm-9"><a
+											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-SCH-Datasets.zip"
+											target="_blank">(2) Training annotations, validation annotations, test
+											targets, evaluation script and label space for R2-SOTAB-CTA-SCH.</a>
+									</dd>
+									<dt class="col-sm-3"></dt>
+									<dd class="col-sm-9">
+										The datasets zip file includes:
+										<ul>
+											<li>The training set is found in the file "sotab_cta_train_round2.csv" and
+												provides the table names, column indices, and ground truth labels for
+												each column. </li>
+											<li>The validation set is found in the file
+												"sotab_cta_validation_round2.csv" and has the same structure as the
+												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+												predictions on the validation set. You can run the evaluation by
+												running:
+												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+											</li>
+											<li>The test targets can be found in the file
+												"sotab_cta_test_targets_round2.csv". The first column indicates the
+												table name and the second the target column index which needs to be
+												predicted. Submissions need to have one prediction for each target
+												column.</li>
+											<li>All tables can be found in the links provided. One table is stored in
+												one JSON file. Each line corresponds to a table row. The tables do not
+												have any column headers. You can open a table using the following code:
+												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+											</li>
+											<li>The label set to use for prediction is stored in the
+												"cta_labels_round2.txt" file.</li>
+										</ul>
+									</dd>
+
+								</dl>
+
+								<h5>Evaluation Criteria</h5>
+								<p>
+									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+								</p>
+
+								<h5>Submission</h5>
+
+								Participants can test and develop their systems on the given ground truth (validation
+								set).
+								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
+								</div>
+							</div>
+							<!--Task Block End-->
+
+							<!--Task Block SOTAB CPA-->
+							<div class="tab-pane fade" id="round2-sotab-cpa-tab-pane" role="tabpanel"
+								aria-labelledby="round2-sotab-cpa-tab" tabindex="0">
+								<h4>Columns Property Annotation using Schema.org terms (R2-SOTAB-CPA-SCH)</h4>
+								<p>
+									<b>R2-SOTAB-CPA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+									Data to Knowledge Graph Matching".
+									It is based on the <a
+										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+										benchmark</a>.
+									The goal
+									is to annotate the relationship between the main column of a table and other columns
+									with some pre-defined terms from the Schema.org vocabulary.
+								</p>
+								<h5>Task Description</h5>
+								<p>
+									In this task, the goal is to annotate the relationship between the main column of a
+									table and other columns using terms from a pre-defined
+									set of Schema.org terms. The problem is formulated as a multi-class classification
+									problem where each column pair can be annotated with only
+									one label. The set of pre-defined Schema.org terms consists of 105 terms which are
+									listed in the "cpa_labels_round2.txt" file. Examples include
+									telephone, isbn or description.
+								</p>
+								<div class="alert alert-warning" role="alert">
+									Annotate columns using terms from the "cpa_labels_round2.txt".
+								</div>
+								<p>
+									Each submission should be a CSV file. A line should represent one relationship
+									prediction.
+									The first column should specify the name of the table, the second column should
+									specify the index of the main column,
+									the third should specify the index of the other column and the fourth column should
+									specify the predicted label. The
+									columns should be named: "table_name", "main_column_index", "column_index", "label".
+								</p>
+								<p>
+								<h6>Explanations:</h6>
+								<ul>
+									<li>"table_name" column should include the full name of the table including the
+										extension. (example: Product_corememoriesco.com_September2020_CPA.json.gz)</li>
+									<li>"main_column_index" refers to the position of the main column in the table. Main
+										column indices in the WDC-SOTAB benchmark are always at the 0 index.</li>
+									<li>"column_index" refers to the position of the column in the table.
+										Non-main-column indices in a table start from 1.</li>
+									<li>"label" refers to the predicted label. One column pair should have only one
+										predicted label.</li>
+								</ul>
+								</p>
+
+
+								<h5>Dataset</h5>
+								<dl class="row">
+									<dt class="col-sm-3">Links</dt>
+									<dd class="col-sm-9"><a
+											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-Tables.zip"
+											target="_blank">(1) R2-SOTAB-CPA Tables at SemTab 2023 Round 2</a>
+									</dd>
+									<dt class="col-sm-3">Description</dt>
+									<dd class="col-sm-9"><a
+											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-SCH-Datasets.zip"
+											target="_blank">(2) Training annotations, validation annotations, test
+											targets, evaluation script and label space for R2-SOTAB-CPA-SCH.</a>
+									</dd>
+									<dt class="col-sm-3"></dt>
+									<dd class="col-sm-9">
+										The datasets zip file includes:
+										<ul>
+											<li>The training set is found in the file "sotab_cpa_train_round2.csv" and
+												provides the table names, main column indices, column indices, and
+												ground truth labels for each column pair. </li>
+											<li>The validation set is found in the file
+												"sotab_cpa_validation_round2.csv" and has the same structure as the
+												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+												predictions on the validation set. You can run the evaluation by
+												running:
+												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+											</li>
+											<li>The test targets can be found in the file
+												"sotab_cpa_test_targets_round2.csv". The first column indicates the
+												table name, the second column indicates the index of the main column in
+												the table, the third column indicates the target column index and the
+												relationship between these two columns needs to be predicted.
+												Submissions need to have one prediction for each target column.</li>
+											<li>All tables can be found in the links provided. One table is stored in
+												one JSON file. Each line corresponds to a table row. The tables do not
+												have any column headers. You can open a table using the following code:
+												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+											</li>
+											<li>The label set to use for prediction is stored in the
+												"cpa_labels_round2.txt" file.</li>
+										</ul>
+									</dd>
+
+								</dl>
+
+								<h5>Evaluation Criteria</h5>
+								<p>
+									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+								</p>
+
+								<h5>Submission</h5>
+
+								Participants can test and develop their systems on the given ground truth (validation
+								set).
+								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
+								</div>
+							</div>	
+							
+							
+							<!--Task Block SOTAB CTA DBP-->
+							<div class="tab-pane fade" id="round2-sotab-cta-dbp-tab-pane" role="tabpanel"
+								aria-labelledby="round2-sotab-cta-dbp-tab" tabindex="0">
+								<h4>Column Type Annotation using DBpedia (R2-SOTAB-CTA-DBP)</h4>
+								<p>
+									<b>R2-SOTAB-CTA-DBP</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+									Data to Knowledge Graph Matching".
+									It is based on the <a
+										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+										benchmark</a>.
+									The goal is to annotate
+									table columns with pre-defined terms from DBpedia.
+								</p>
+								<h5>Task Description</h5>
+								<p>
+									In this task, the goal is to annotate the semantic types of table columns using
+									terms from a pre-defined set of DBpedia terms.
+									The problem is formulated as a multi-class classification problem where each column
+									can be annotated with only one type. The set of pre-defined
+									Schema.org terms consists of 46 terms which are listed in the
+									"cta_labels_round2_dbpedia.txt" file.
+								</p>
+								<div class="alert alert-warning" role="alert">
+									Annotate columns using terms from the "cta_labels_round2_dbpedia.txt".
+								</div>
+								<p>
+									Each submission should be a CSV file. A line should represent one column prediction.
+									The first column should specify the name of the table, the second column should
+									specify the index of the column in the table
+									and the third column should specify the predicted label. The columns should be
+									named: "table_name", "column_index", "label".
+								</p>
+								<p>
+								<h6>Explanations:</h6>
+								<ul>
+									<li>"table_name" column should include the full name of the table including the
+										extension. (example: Product_corememoriesco.com_September2020_CTA.json.gz)</li>
+									<li>"column_index" refers to the position of the column in the table. Column indices
+										in a table start from 0.</li>
+									<li>"label" refers to the predicted label. One column should have only one predicted
+										label.</li>
+								</ul>
+								</p>
+
+
+								<h5>Dataset</h5>
+								<dl class="row">
+									<dt class="col-sm-3">Links</dt>
+									<dd class="col-sm-9"><a
+											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-Tables.zip"
+											target="_blank">(1) R2-SOTAB-CTA Tables at SemTab 2023 Round 2</a>
+									</dd>
+									<dt class="col-sm-3">Description</dt>
+									<dd class="col-sm-9"><a
+											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-DBP-Datasets.zip"
+											target="_blank">(2) Training annotations, validation annotations, test
+											targets, evaluation script and label space for R2-SOTAB-CTA-DBP.</a>
+									</dd>
+									<dt class="col-sm-3"></dt>
+									<dd class="col-sm-9">
+										The datasets zip file includes:
+										<ul>
+											<li>The training set is found in the file "sotab_cta_train_round2_dbpedia.csv" and
+												provides the table names, column indices, and ground truth labels for
+												each column. </li>
+											<li>The validation set is found in the file
+												"sotab_cta_validation_round2_dbpedia.csv" and has the same structure as the
+												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+												predictions on the validation set. You can run the evaluation by
+												running:
+												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+											</li>
+											<li>The test targets can be found in the file
+												"sotab_cta_test_targets_round2_dbpedia.csv". The first column indicates the
+												table name and the second the target column index which needs to be
+												predicted. Submissions need to have one prediction for each target
+												column.</li>
+											<li>All tables can be found in the links provided. One table is stored in
+												one JSON file. Each line corresponds to a table row. The tables do not
+												have any column headers. You can open a table using the following code:
+												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+											</li>
+											<li>The label set to use for prediction is stored in the
+												"cta_labels_round2_dbpedia.txt" file.</li>
+										</ul>
+									</dd>
+
+								</dl>
+
+								<h5>Evaluation Criteria</h5>
+								<p>
+									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+								</p>
+
+								<h5>Submission</h5>
+
+								Participants can test and develop their systems on the given ground truth (validation
+								set).
+								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
+								</div>
+							</div>
+							<!--Task Block End-->
+
+							<!--Task Block SOTAB CPA DBP-->
+							<div class="tab-pane fade" id="round2-sotab-cpa-dbp-tab-pane" role="tabpanel"
+								aria-labelledby="round2-sotab-cpa-dbp-tab" tabindex="0">
+								<h4>Columns Property Annotation using DBpedia (R2-SOTAB-CPA-DBP)</h4>
+								<p>
+									<b>R2-SOTAB-CPA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+									Data to Knowledge Graph Matching".
+									It is based on the <a
+										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+										benchmark</a>.
+									The goal
+									is to annotate the relationship between the main column of a table and other columns
+									with some pre-defined terms from DBpedia.
+								</p>
+								<h5>Task Description</h5>
+								<p>
+									In this task, the goal is to annotate the relationship between the main column of a
+									table and other columns using terms from a pre-defined
+									set of DBpedia terms. The problem is formulated as a multi-class classification
+									problem where each column pair can be annotated with only
+									one label. The set of pre-defined DBpedia terms consists of 49 terms which are
+									listed in the "cpa_labels_round2_dbpedia.txt" file.
+								</p>
+								<div class="alert alert-warning" role="alert">
+									Annotate columns using terms from the "cpa_labels_round2_dbpedia.txt".
+								</div>
+								<p>
+									Each submission should be a CSV file. A line should represent one relationship
+									prediction.
+									The first column should specify the name of the table, the second column should
+									specify the index of the main column,
+									the third should specify the index of the other column and the fourth column should
+									specify the predicted label. The
+									columns should be named: "table_name", "main_column_index", "column_index", "label".
+								</p>
+								<p>
+								<h6>Explanations:</h6>
+								<ul>
+									<li>"table_name" column should include the full name of the table including the
+										extension. (example: Product_corememoriesco.com_September2020_CPA.json.gz)</li>
+									<li>"main_column_index" refers to the position of the main column in the table. Main
+										column indices in the WDC-SOTAB benchmark are always at the 0 index.</li>
+									<li>"column_index" refers to the position of the column in the table.
+										Non-main-column indices in a table start from 1.</li>
+									<li>"label" refers to the predicted label. One column pair should have only one
+										predicted label.</li>
+								</ul>
+								</p>
+
+
+								<h5>Dataset</h5>
+								<dl class="row">
+									<dt class="col-sm-3">Links</dt>
+									<dd class="col-sm-9"><a
+											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-Tables.zip"
+											target="_blank">(1) R2-SOTAB-CPA Tables at SemTab 2023 Round 2</a>
+									</dd>
+									<dt class="col-sm-3">Description</dt>
+									<dd class="col-sm-9"><a
+											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-DBP-Datasets.zip"
+											target="_blank">(2) Training annotations, validation annotations, test
+											targets, evaluation script and label space for R2-SOTAB-CPA-DBP.</a>
+									</dd>
+									<dt class="col-sm-3"></dt>
+									<dd class="col-sm-9">
+										The datasets zip file includes:
+										<ul>
+											<li>The training set is found in the file "sotab_cpa_train_round2_dbpedia.csv" and
+												provides the table names, main column indices, column indices, and
+												ground truth labels for each column pair. </li>
+											<li>The validation set is found in the file
+												"sotab_cpa_validation_round2_dbpedia.csv" and has the same structure as the
+												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+												predictions on the validation set. You can run the evaluation by
+												running:
+												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+											</li>
+											<li>The test targets can be found in the file
+												"sotab_cpa_test_targets_round2_dbpedia.csv". The first column indicates the
+												table name, the second column indicates the index of the main column in
+												the table, the third column indicates the target column index and the
+												relationship between these two columns needs to be predicted.
+												Submissions need to have one prediction for each target column.</li>
+											<li>All tables can be found in the links provided. One table is stored in
+												one JSON file. Each line corresponds to a table row. The tables do not
+												have any column headers. You can open a table using the following code:
+												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+											</li>
+											<li>The label set to use for prediction is stored in the
+												"cpa_labels_round2_dbpedia.txt" file.</li>
+										</ul>
+									</dd>
+
+								</dl>
+
+								<h5>Evaluation Criteria</h5>
+								<p>
+									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+								</p>
+
+								<h5>Submission</h5>
+
+								Participants can test and develop their systems on the given ground truth (validation
+								set).
+								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
+								</div>
 							</div>
 
-
-							<h2 class="title display-6 pt-5" id="paper">
-								<i class="bi bi-journal-check"></i>
-								Paper Guidelines
-							</h2>
-
-							<p>
-								We invite participants in the Accuracy Track as well as the Datasets Track to submit a
-								paper.
-								<!-- using <a href="https://easychair.org/my/conference?conf=semtab2023">easychair</a> -->
-								<br />
-								System papers in the Accuracy Track should be no more than 12 pages
-								long (excluding references) and papers for the Datasets Track are
-								limited to 6 pages.
-								<br />
-								If you are submitting to the Datasets Track, please append "[Datasets Track]" at the end
-								of the
-								paper title.
-								<br />
-								Both type of papers should be formatted using the
-								<a href="https://www.overleaf.com/latex/templates/template-for-submissions-to-ceur-workshop-proceedings-ceur-ws-dot-org/wqyfdgftmcfw"
-									target="_blank">CEUR Latex template</a>
-								or the
-								<a href="https://ceurws.wordpress.com/2020/03/31/ceurws-publishes-ceurart-paper-style/"
-									target="_blank">CEUR Word template</a>. Papers will be reviewed by 1-2 challenge
-								organisers.
-							</p>
-
-							<p>
-								Accepted papers will be published as a volume of
-								<a href="http://ceur-ws.org/" target="_blank">CEUR-WS</a>. By
-								submitting a paper, the authors accept the CEUR-WS publishing rules.
-							</p>
-
-							<h2 id="organisation" class="title display-6 pt-5">
-								<i class="bi bi-people"></i>
-								Organisation
-							</h2>
-
-							<p>
-								This challenge is organised by
-								<a href="https://researcher.watson.ibm.com/researcher/view.php?person=ibm-Kavitha.Srinivas"
-									target="_blank">Kavitha Srinivas</a>
-								(IBM Research),
-								<a href="https://www.city.ac.uk/people/academics/ernesto-jimenez-ruiz"
-									target="_blank">Ernesto
-									Jim&eacute;nez-Ruiz</a>
-								(City, University of London; University of Oslo),
-								<a href="https://researcher.watson.ibm.com/researcher/view.php?person=us-hassanzadeh"
-									target="_blank">Oktie Hassanzadeh</a>
-								(IBM Research),
-								<a href="https://www.cs.ox.ac.uk/people/jiaoyan.chen/" target="_blank">Jiaoyan Chen</a>
-								(University of Oxford),
-								<a href="https://sites.google.com/site/vefthym/" target="_blank">Vasilis Efthymiou</a>
-								(FORTH - ICS),
-								<a href="https://vcutrona.github.io/" target="_blank">Vincenzo Cutrona</a>
-								(SUPSI),
-								<a href="https://juansequeda.com/" target="_blank">Juan Sequeda</a>
-								(data.world),
-								<a href="https://fusion.cs.uni-jena.de/fusion/members/nora-abdelmageed/"
-									target="_blank">Nora
-									Abdelmageed</a>
-								(University of Jena), and
-								<a href="https://madelonhulsebos.github.io/" target="_blank">Madelon Hulsebos</a>
-								(Sigma Computing, University of Amsterdam). If you have any problems
-								working with the datasets or any suggestions related to this
-								challenge, do not hesitate to contact us via the
-								<a href="https://groups.google.com/g/sem-tab-challenge">discussion group</a>.
-							</p>
-
-							<h2 id="acknowledgements" class="title display-6 pt-5">
-								<i class="bi bi-bookmark-star"></i>
-								Acknowledgements
-							</h2>
-
-							<p>
-								The challenge is currently supported by the
-								<a href="http://sirius-labs.no/" target="_blank">SIRIUS Centre for Research-driven
-									Innovation</a>
-								and
-								<a href="http://www.research.ibm.com/" target="_blank">IBM Research</a>.
-							</p>
-
 						</div>
+
+						<h2 class="title display-6 pt-5" id="paper">
+							<i class="bi bi-journal-check"></i>
+							Paper Guidelines
+						</h2>
+
+						<p>
+							We invite participants in the Accuracy Track as well as the Datasets Track to submit a
+							paper.
+							<!-- using <a href="https://easychair.org/my/conference?conf=semtab2023">easychair</a> -->
+							<br />
+							System papers in the Accuracy Track should be no more than 12 pages
+							long (excluding references) and papers for the Datasets Track are
+							limited to 6 pages.
+							<br />
+							If you are submitting to the Datasets Track, please append "[Datasets Track]" at the end
+							of the
+							paper title.
+							<br />
+							Both type of papers should be formatted using the
+							<a href="https://www.overleaf.com/latex/templates/template-for-submissions-to-ceur-workshop-proceedings-ceur-ws-dot-org/wqyfdgftmcfw"
+								target="_blank">CEUR Latex template</a>
+							or the
+							<a href="https://ceurws.wordpress.com/2020/03/31/ceurws-publishes-ceurart-paper-style/"
+								target="_blank">CEUR Word template</a>. Papers will be reviewed by 1-2 challenge
+							organisers.
+						</p>
+
+						<p>
+							Accepted papers will be published as a volume of
+							<a href="http://ceur-ws.org/" target="_blank">CEUR-WS</a>. By
+							submitting a paper, the authors accept the CEUR-WS publishing rules.
+						</p>
+
+						<h2 id="organisation" class="title display-6 pt-5">
+							<i class="bi bi-people"></i>
+							Organisation
+						</h2>
+
+						<p>
+							This challenge is organised by
+							<a href="https://researcher.watson.ibm.com/researcher/view.php?person=ibm-Kavitha.Srinivas"
+								target="_blank">Kavitha Srinivas</a>
+							(IBM Research),
+							<a href="https://www.city.ac.uk/people/academics/ernesto-jimenez-ruiz"
+								target="_blank">Ernesto
+								Jim&eacute;nez-Ruiz</a>
+							(City, University of London; University of Oslo),
+							<a href="https://researcher.watson.ibm.com/researcher/view.php?person=us-hassanzadeh"
+								target="_blank">Oktie Hassanzadeh</a>
+							(IBM Research),
+							<a href="https://www.cs.ox.ac.uk/people/jiaoyan.chen/" target="_blank">Jiaoyan Chen</a>
+							(University of Oxford),
+							<a href="https://sites.google.com/site/vefthym/" target="_blank">Vasilis Efthymiou</a>
+							(FORTH - ICS),
+							<a href="https://vcutrona.github.io/" target="_blank">Vincenzo Cutrona</a>
+							(SUPSI),
+							<a href="https://juansequeda.com/" target="_blank">Juan Sequeda</a>
+							(data.world),
+							<a href="https://fusion.cs.uni-jena.de/fusion/members/nora-abdelmageed/"
+								target="_blank">Nora
+								Abdelmageed</a>
+							(University of Jena), and
+							<a href="https://madelonhulsebos.github.io/" target="_blank">Madelon Hulsebos</a>
+							(Sigma Computing, University of Amsterdam). If you have any problems
+							working with the datasets or any suggestions related to this
+							challenge, do not hesitate to contact us via the
+							<a href="https://groups.google.com/g/sem-tab-challenge">discussion group</a>.
+						</p>
+
+						<h2 id="acknowledgements" class="title display-6 pt-5">
+							<i class="bi bi-bookmark-star"></i>
+							Acknowledgements
+						</h2>
+
+						<p>
+							The challenge is currently supported by the
+							<a href="http://sirius-labs.no/" target="_blank">SIRIUS Centre for Research-driven
+								Innovation</a>
+							and
+							<a href="http://www.research.ibm.com/" target="_blank">IBM Research</a>.
+						</p>
+
+						
 
 						<!--Logos-->
 						<div class="col-md-2 col-3 vstack gap-3">
