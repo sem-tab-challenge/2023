@@ -67,8 +67,8 @@
 						</ul>
 					</li>
 					<li class="nav-item">
-                    				<a class="nav-link" href="#results">Results</a>
-                			</li>
+						<a class="nav-link" href="#results">Results</a>
+					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#paper">Paper Guidelines</a>
 					</li>
@@ -240,6 +240,11 @@
 						<b><span class="badge text-bg-danger">NEW!</span> Table Topic Detection</b>: Assigning a KG
 						class to a table.
 					</li>
+					<li>
+						<b><span class="badge text-bg-danger">NEW!</span> Column-Qualifier Annotation</b>: Predicting
+						both main properties and qualifiers for n-ary relations that are expressed by three table
+						columns.
+					</li>
 				</ul>
 
 				Matching Criteria:
@@ -248,6 +253,7 @@
 					<li>Average Recall</li>
 					<li>Average F1</li>
 					<li>Cscore</li>
+					<li>Accuracy</li>
 				</ul>
 
 				<h3 class="pt-4" id="datasets-track">Datasets Track</h3>
@@ -449,1747 +455,1779 @@
 						</button>
 					</li>
 				</ul>
-						<div class="alert alert-primary d-flex align-items-center" role="alert">
-							<i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
-							April 15 - May 15
+				<div class="alert alert-primary d-flex align-items-center" role="alert">
+					<i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
+					April 15 - May 15
+				</div>
+
+				<!--Round 1 Content------------------------------------------------------------------------------>
+				<div class="tab-content" id="round1-tasks-tab-content">
+					<!--Task Block-->
+
+					<div class="tab-pane fade show active" id="round1-cea-wd-tab-pane" role="tabpanel"
+						aria-labelledby="round1-cea-wd-tab" tabindex="0">
+						<h4>Cell Entity Annotation by Wikidata (WikidataTablesR1-CEA)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
+							Graph
+							Matching".
+							It is to annotate column cells (entity mentions) in a table with entities of
+							<strong>Wikidata</strong>.
+							<br>
+							<i class="bi bi-lightbulb-fill" style="color: var(--bs-yellow)"></i>
+							Note: The evaluation will be based on annotations using Feb 1, 2023 version of
+							Wikidata. Participants may use <a href="https://zenodo.org/record/7829583">this
+								static dump from Feb 1, 2023</a>, or the public Wikidata endpoint (or its API).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each target cell with an entity of Wikidata.
+							Each submission should contain the annotation of the target cell. One cell can be
+							annotated by
+							one entity with the prefix of http://www.wikidata.org/entity/. Any of the equivalent
+							entities of
+							the ground truth entity are regarded as correct. Case is NOT sensitive.
+						</p>
+						<p>
+							The submission file should be in CSV format.
+							Each line should contain the annotation of one cell which is identified by a table
+							id, a column
+							id and a row id.
+							Namely one line should have four fields: "Table ID", "Row ID", "Column ID" and
+							"Entity IRI".
+							Each cell should be annotated by <strong>at most one entity</strong>.
+							The headers should be excluded from the submission file.
+							Here is an example: "OHGI1JNY","32","1","http://www.wikidata.org/entity/Q5484".
+							Please use the prefix of http://www.wikidata.org/entity/ instead of
+							https://www.wikidata.org/wiki/ which is the prefix of the Wikidata page URL.
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								Table ID does not include filename extension; make sure you remove the .csv
+								extension from
+								the filename.
+							</li>
+							<li>
+								Column ID is the position of the column in the table file, starting from 0,
+								i.e., first
+								column's ID is 0.
+							</li>
+							<li>
+								Row ID is the position of the row in the table file, starting from 0, i.e.,
+								first row's ID
+								is 0.
+							</li>
+							<li>
+								One submission file should have NO duplicate lines for one cell.
+							</li>
+							<li>
+								Annotations for cells out of the target cells are ignored.
+							</li>
+						</ol>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Link</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/sem-tab-challenge/2023/blob/main/datasets/WikidataTables2023R1.tar.gz"
+									target="_blank">Round #1 WikidataTables Dataset</a></dd>
+
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9">
+								<p>The dataset contains:</p>
+								<ul>
+									<li>evaluator codes (CEA_WD_Evaluator.py)</li>
+									<li>the validation set (DataSets/Valid/gt/cea_gt.csv,
+										DataSets/Valid/tables)
+									</li>
+									<li>the testing set (DataSets/Test/tables,
+										DataSets/Test/target/cea_target.csv)
+									</li>
+								</ul>
+							</dd>
+
+							<dt class="col-sm-3">Format</dt>
+							<dd class="col-sm-9">
+								One table is stored in one CSV file. Each line corresponds to a table row. The
+								first row may
+								either be the table header or content. The target cells for annotation are saved
+								in a CSV
+								file.
+							</dd>
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
+
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
+
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
+
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+
+						</p>
+
+						Notes:
+
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
+								score.
+							</li>
+							<li>
+								One target cell, one ground truth annotation, i.e., # ground truth annotations =
+								# target
+								cells. The ground truth annotation has already covered all equivalent entities
+								(e.g., wiki
+								page redirected entities); the ground truth is hit if one of its equivalent
+								entities is hit.
+							</li>
+						</ol>
+
+						<h5>Submission</h5>
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_WikidataTablesR1_CEA.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a></div>
+					</div>
+					<!--Task Block End-->
+
+
+					<!--Task Block-->
+					<div class="tab-pane fade" id="round1-cta-wd-tab-pane" role="tabpanel"
+						aria-labelledby="round1-cta-wd-tab" tabindex="0">
+						<h4>Column Type Annotation by Wikidata (CTA-WD)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
+							Graph
+							Matching".
+							It's to annotate an entity column (i.e., a column composed of entity mentions) in a
+							table with
+							types from <strong>Wikidata</strong>.<br>
+							<i class="bi bi-lightbulb-fill" style="color: var(--bs-yellow)"></i>
+							Note: The evaluation will be based on annotations using Feb 1, 2023 version of
+							Wikidata. Participants may use <a href="https://zenodo.org/record/7829583">this
+								static dump from Feb 1, 2023</a>, or the public Wikidata endpoint (or its API).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each entity column by items of Wikidata as its type.
+							Each column can be annotated by multiple types:
+							the one that is as fine grained as possible and correct to all the column cells, is
+							regarded as
+							a <strong>perfect annotation</strong>;
+							the one that is the ancestor of the perfect annotation is regarded as an
+							<strong>okay
+								annotation</strong>;
+							others are regarded as <strong>wrong annotations</strong>.
+						</p>
+						<p>
+							The annotation can be a normal entity of Wikidata, with the prefix of
+							http://www.wikidata.org/entity/, such as http://www.wikidata.org/entity/Q8425. Each
+							column
+							should be annotated by <strong>at most one item</strong>. A perfect annotation is
+							encouraged
+							with a full score,
+							while an okay annotation can still get a part of the score. Example:
+							"KIN0LD6C","0","http://www.wikidata.org/entity/Q8425". Please use the prefix of
+							http://www.wikidata.org/entity/ instead of the URL prefix
+							https://www.wikidata.org/wiki/.
+						</p>
+						<p>
+							The annotation should be represented by its full IRI, where the case is NOT
+							sensitive. Each
+							submission should be a CSV file. Each line should include a column identified by
+							table id and
+							column id, and the column's annotation (a Wikidata item). It means one line should
+							include three
+							fields: "Table ID", "Column ID" and "Annotation IRI". The headers should be excluded
+							from the
+							submission file.
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								Table ID is the filename of the table data, but does NOT include the extension.
+							</li>
+							<li>
+								Column ID is the position of the column in the input, starting from 0, i.e.,
+								first column's ID is 0.
+							</li>
+							<li>
+								One submission file should have NO duplicate lines for each target column.
+							</li>
+							<li>
+								Annotations for columns out of the target columns are ignored.
+							</li>
+						</ol>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Link</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/sem-tab-challenge/2023/blob/main/datasets/WikidataTables2023R1.tar.gz"
+									target="_blank">Round #1 WikidataTables Dataset</a></dd>
+
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9">
+								<p>The dataset contains:</p>
+								<ul>
+									<li>evaluator codes (CTA_WD_Evaluator.py)</li>
+									<li>the validation set (DataSets/Valid/gt/cta_gt.csv,
+										DataSets/Valid/gt/cta_gt_ancestor.json,
+										DataSets/Valid/gt/cta_gt_descendent.json,
+										DataSets/Valid/tables)
+									</li>
+									<li>the testing set (DataSets/Test/tables,
+										DataSets/Test/target/cta_gt.csv)
+									</li>
+								</ul>
+							</dd>
+
+							<dt class="col-sm-3">Format</dt>
+							<dd class="col-sm-9">
+								One table is stored in one CSV file. Each line corresponds to a table row. The
+								first row may either be the table header or content. The target columns for
+								annotation are
+								saved
+								in a CSV file. The CTA GTs' ancestors and descendents are saved in two json
+								files,
+								respectively.
+							</dd>
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							We encourage one perfect annotation, and at same time score one of its ancestors
+							(okay
+							annotation). Thus we calculate Approximate Precision (\(APrecision\)), Approximate
+							Recall
+							(\(ARecall\)), and Approximate F1 Score (\(AF1\)):
+
+							\[APrecision = {\sum_{a \in all\ annotations}g(a) \over all\ annotations\ \#}\]
+
+							\[ARecall = {\sum_{col \in all\ target\ columns}(max\_annotation\_score(col)) \over
+							all\ target\
+							columns\ \#}\]
+
+							\[AF1 = {2 \times APrecision \times ARecall \over APrecision + ARecall}\]
+
+						</p>
+
+						Notes:
+
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(
+								g(a) =
+								\begin{cases}
+								1.0, & \text{ if } a \text{ is a perfect annotation} \\
+								0.8^{d(a)}, & \text{ if } a \text{ is an ancestor of the perfect annotation and
+								} d(a) < 5 \\ 0.7^{d(a)}, & \text{ if } a \text{ is a descendent of the perfect
+									annotation and } d(a) < 3 \\ 0, & otherwise \end{cases} \) <p>
+									where \(d(a)\) is the depth to the perfect annotation.
+									E.g., \(d(a)=1\) if \(a\) is a parent of the perfect annotation, and
+									\(d(a)=2\) if \(a\)
+									is a grandparent of the perfect annotation.
+									</p>
+							</li>
+							<li>
+								\(
+								max\_annotation\_score(col) =
+								\begin{cases}
+								g(a), & \text{ if } col \text{ has an annotation } a \\
+								0, & \text{ if } col \text{ has no annotation }
+								\end{cases}
+
+								\)
+							</li>
+							<li>
+								\(AF1\) is used as the primary score, and \(APrecision\) is used as the
+								secondary score.
+							</li>
+							<li>
+								A cell may have multiple equivalent Wikidata items as its GT (e.g., redirected
+								pages
+								Q20514736 and Q852446). For an annotated entity, our evaluator will calculate
+								the score with
+								each GT entity and select the maximum score.
+							</li>
+						</ol>
+
+						<h5>Submission</h5>
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_WikidataTablesR1_CTA.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a> </div>
+					</div>
+					<!--Task Block End-->
+
+
+					<!--Task Block-->
+					<div class="tab-pane fade" id="round1-cpa-wd-tab-pane" role="tabpanel"
+						aria-labelledby="round1-cpa-wd-tab" tabindex="0">
+						<h4>Column Property Annotation by Wikidata (CPA-WD)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
+							Graph
+							Matching".
+							It is to annotate column relationships in a table with properties of
+							<strong>Wikidata</strong>.<br>
+							<i class="bi bi-lightbulb-fill" style="color: var(--bs-yellow)"></i>
+							Note: The evaluation will be based on annotations using Feb 1, 2023 version of
+							Wikidata. Participants may use <a href="https://zenodo.org/record/7829583">this
+								static dump from Feb 1, 2023</a>, or the public Wikidata endpoint (or its API).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each column pair with a property of Wikidata.
+							Each submission should contain an annotation of a target column pair. Note the order
+							of the two
+							columns matters. The annotation property should start with the prefix of
+							http://www.wikidata.org/prop/direct/. Case is NOT sensitive.
+						</p>
+						<p>
+							The submission file should be in CSV format.
+							Each line should contain the annotation of two columns which is identified by a
+							table id, column
+							id one and column id two.
+							Namely one line should have four fields: "Table ID", "Column ID 1", "Column ID 2"
+							and "Property
+							IRI".
+							Each column pair should be annotated by <strong>at most one property</strong>.
+							The headers should be excluded from the submission file.
+							Here is an example: "OHGI1JNY","0","1","http://www.wikidata.org/prop/direct/P702".
+							Please use the prefix of http://www.wikidata.org/prop/direct/ instead of
+							https://www.wikidata.org/wiki/ which is the prefix of the Wikidata page URL.
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								Table ID does not include filename extension; make sure you remove the .csv
+								extension from
+								the filename.
+							</li>
+							<li>
+								Column ID is the position of the column in the table file, starting from 0,
+								i.e., first
+								column's ID is 0.
+							</li>
+							<li>
+								One submission file should have NO duplicate lines for one column pair.
+							<li>
+								Annotations for column pairs out of the targets are ignored.
+							</li>
+						</ol>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Link</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/sem-tab-challenge/2023/blob/main/datasets/WikidataTables2023R1.tar.gz"
+									target="_blank">Round #1 WikidataTables Dataset</a></dd>
+
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9">
+								<p>The dataset contains:</p>
+								<ul>
+									<li>evaluator codes (CPA_WD_Evaluator.py))</li>
+									<li>the validation set (DataSets/Valid/gt/cpa_gt.csv,
+										DataSets/Valid/tables)
+									</li>
+									<li>the testing set (DataSets/Test/tables,
+										DataSets/Test/target/cpa_target.csv)
+									</li>
+								</ul>
+							</dd>
+
+							<dt class="col-sm-3">Format</dt>
+							<dd class="col-sm-9">
+								One table is stored in one CSV file. Each line corresponds to a table row. The
+								first row may
+								either be the table header or content. The target cells for annotation are saved
+								in a CSV
+								file.
+							</dd>
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
+
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
+
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
+
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+
+						</p>
+
+						Notes:
+
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
+								score.
+							</li>
+							<li>
+								One target column pair, one ground truth annotation, i.e., # ground truth
+								annotations = #
+								target column pairs.
+							</li>
+						</ol>
+
+						<h5>Submission</h5>
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_WikidataTablesR1_CPA.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a> </div>
+					</div>
+					<!--Task Block End-->
+
+
+					<!--Task Block-->
+					<div class="tab-pane fade" id="round1-tfood-td-tab-pane" role="tabpanel"
+						aria-labelledby="round1-tfood-td-tab" tabindex="0">
+						<h4>tFood Topic Detection (tFood-TD)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
+							Graph
+							Matching".
+							It's to annotate an entire table to instances/entities or types/classes from
+							<strong>Wikidata</strong> (for offline use:
+							<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a> or <a
+								href="https://zenodo.org/record/7829583">2023-02-01</a>).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each table to a KG entity or class.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Use the '<strong>NIL</strong>' annotation when the table should be annotated with a
+							concept
+							that is <strong>NOT</strong> represented in the KG.
+						</div>
+						<p>
+							Each submission should be a CSV file.
+							Each line should include a table id and table's annotation (a Wikidata
+							entity/class).
+						</p>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a href="https://doi.org/10.5281/zenodo.7828162" target="_blank">(1)
+									tFood dataset at SemTab 2023 Round 1</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
+									target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
+							</dd>
+
+
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								<p>The dataset provide:</p>
+								<ul>
+									<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset:
+										1) Horizontal Relational Tables and 2) Entity Tables.</li>
+
+									<li><u>Annotation tasks per table type:</u> </li>
+
+									<li> a) Horizontal Relational Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)
+										<br> 3) Column Type Annotation (CTA)
+										<br> 4) Column Property Annotation (CPA)
+									</li>
+
+									<li> b) Entity Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)
+										<br>
+									</li>
+
+									<li><u>Validation/Test splits:</u> the ground truth data for each task is
+										provided in the validation (val) set however, it is not the case with
+										the test set.</li>
+
+									<li><u> Irrelevant Ground Truth:</u>
+										<br> Please ignore any other provided ground truth and targets other
+										than the tasks specified in this page for for each table type.
+										<br> E.g., exclude: <code>entity/val/gt/cpa_gt.csv</code> and
+										<code>entity/val/targets/cpa_gt.csv</code>
+									</li>
+
+									<li><u>Evaluator Code</u> could be used to evaluate your solutions using the
+										provided ground truth data for the validation (val) set. </li>
+
+									<li><u>Evaluation Rules</u>
+										<br> 1) One submission file should have NO duplicate lines for each
+										target column.
+										<!--<br> 2) Annotations for columns out of the target columns are ignored.-->
+										<br> 2) Table ID is the filename of the table data, but does NOT include
+										the extension (i.e. "csv").
+										<br> 3) The annotation should be represented by its full IRI, where the
+										case is NOT sensitive.
+										<br> 4) The headers should be excluded from the submission file.
+									</li>
+									<li><u>Submission File Format</u>
+										<br> General speaking, the submission file should match the format of
+										the provided ground truth file, one file where each line has:
+										<br> TABLE_ID,ANNOTATION
+									</li>
+
+								</ul>
+							</dd>
+
+
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
+
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
+
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
+
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
+								score.
+							</li>
+						</ol>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
 						</div>
 
-						<!--Round 1 Content------------------------------------------------------------------------------>
-						<div class="tab-content" id="round1-tasks-tab-content">
-							<!--Task Block-->
-
-							<div class="tab-pane fade show active" id="round1-cea-wd-tab-pane" role="tabpanel"
-								aria-labelledby="round1-cea-wd-tab" tabindex="0">
-								<h4>Cell Entity Annotation by Wikidata (WikidataTablesR1-CEA)</h4>
-								<p>
-									This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
-									Graph
-									Matching".
-									It is to annotate column cells (entity mentions) in a table with entities of
-									<strong>Wikidata</strong>.
-									<br>
-									<i class="bi bi-lightbulb-fill" style="color: var(--bs-yellow)"></i>
-									Note: The evaluation will be based on annotations using Feb 1, 2023 version of
-									Wikidata. Participants may use <a href="https://zenodo.org/record/7829583">this
-										static dump from Feb 1, 2023</a>, or the public Wikidata endpoint (or its API).
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									The task is to annotate each target cell with an entity of Wikidata.
-									Each submission should contain the annotation of the target cell. One cell can be
-									annotated by
-									one entity with the prefix of http://www.wikidata.org/entity/. Any of the equivalent
-									entities of
-									the ground truth entity are regarded as correct. Case is NOT sensitive.
-								</p>
-								<p>
-									The submission file should be in CSV format.
-									Each line should contain the annotation of one cell which is identified by a table
-									id, a column
-									id and a row id.
-									Namely one line should have four fields: "Table ID", "Row ID", "Column ID" and
-									"Entity IRI".
-									Each cell should be annotated by <strong>at most one entity</strong>.
-									The headers should be excluded from the submission file.
-									Here is an example: "OHGI1JNY","32","1","http://www.wikidata.org/entity/Q5484".
-									Please use the prefix of http://www.wikidata.org/entity/ instead of
-									https://www.wikidata.org/wiki/ which is the prefix of the Wikidata page URL.
-								</p>
-
-								Notes:
-								<ol>
-									<li>
-										Table ID does not include filename extension; make sure you remove the .csv
-										extension from
-										the filename.
-									</li>
-									<li>
-										Column ID is the position of the column in the table file, starting from 0,
-										i.e., first
-										column's ID is 0.
-									</li>
-									<li>
-										Row ID is the position of the row in the table file, starting from 0, i.e.,
-										first row's ID
-										is 0.
-									</li>
-									<li>
-										One submission file should have NO duplicate lines for one cell.
-									</li>
-									<li>
-										Annotations for cells out of the target cells are ignored.
-									</li>
-								</ol>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Link</dt>
-									<dd class="col-sm-9"><a
-											href="https://github.com/sem-tab-challenge/2023/blob/main/datasets/WikidataTables2023R1.tar.gz"
-											target="_blank">Round #1 WikidataTables Dataset</a></dd>
-
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9">
-										<p>The dataset contains:</p>
-										<ul>
-											<li>evaluator codes (CEA_WD_Evaluator.py)</li>
-											<li>the validation set (DataSets/Valid/gt/cea_gt.csv,
-												DataSets/Valid/tables)
-											</li>
-											<li>the testing set (DataSets/Test/tables,
-												DataSets/Test/target/cea_target.csv)
-											</li>
-										</ul>
-									</dd>
-
-									<dt class="col-sm-3">Format</dt>
-									<dd class="col-sm-9">
-										One table is stored in one CSV file. Each line corresponds to a table row. The
-										first row may
-										either be the table header or content. The target cells for annotation are saved
-										in a CSV
-										file.
-									</dd>
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Precision, Recall and F1 Score are calculated:
-
-									\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
-
-									\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
-
-									\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
-
-								</p>
-
-								Notes:
-
-								<ol>
-									<li>
-										# denotes the number.
-									</li>
-									<li>
-										\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
-										score.
-									</li>
-									<li>
-										One target cell, one ground truth annotation, i.e., # ground truth annotations =
-										# target
-										cells. The ground truth annotation has already covered all equivalent entities
-										(e.g., wiki
-										page redirected entities); the ground truth is hit if one of its equivalent
-										entities is hit.
-									</li>
-								</ol>
-
-								<h5>Submission</h5>
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_WikidataTablesR1_CEA.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a></div>
-							</div>
-							<!--Task Block End-->
-
-
-							<!--Task Block-->
-							<div class="tab-pane fade" id="round1-cta-wd-tab-pane" role="tabpanel"
-								aria-labelledby="round1-cta-wd-tab" tabindex="0">
-								<h4>Column Type Annotation by Wikidata (CTA-WD)</h4>
-								<p>
-									This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
-									Graph
-									Matching".
-									It's to annotate an entity column (i.e., a column composed of entity mentions) in a
-									table with
-									types from <strong>Wikidata</strong>.<br>
-									<i class="bi bi-lightbulb-fill" style="color: var(--bs-yellow)"></i>
-									Note: The evaluation will be based on annotations using Feb 1, 2023 version of
-									Wikidata. Participants may use <a href="https://zenodo.org/record/7829583">this
-										static dump from Feb 1, 2023</a>, or the public Wikidata endpoint (or its API).
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									The task is to annotate each entity column by items of Wikidata as its type.
-									Each column can be annotated by multiple types:
-									the one that is as fine grained as possible and correct to all the column cells, is
-									regarded as
-									a <strong>perfect annotation</strong>;
-									the one that is the ancestor of the perfect annotation is regarded as an
-									<strong>okay
-										annotation</strong>;
-									others are regarded as <strong>wrong annotations</strong>.
-								</p>
-								<p>
-									The annotation can be a normal entity of Wikidata, with the prefix of
-									http://www.wikidata.org/entity/, such as http://www.wikidata.org/entity/Q8425. Each
-									column
-									should be annotated by <strong>at most one item</strong>. A perfect annotation is
-									encouraged
-									with a full score,
-									while an okay annotation can still get a part of the score. Example:
-									"KIN0LD6C","0","http://www.wikidata.org/entity/Q8425". Please use the prefix of
-									http://www.wikidata.org/entity/ instead of the URL prefix
-									https://www.wikidata.org/wiki/.
-								</p>
-								<p>
-									The annotation should be represented by its full IRI, where the case is NOT
-									sensitive. Each
-									submission should be a CSV file. Each line should include a column identified by
-									table id and
-									column id, and the column's annotation (a Wikidata item). It means one line should
-									include three
-									fields: "Table ID", "Column ID" and "Annotation IRI". The headers should be excluded
-									from the
-									submission file.
-								</p>
-
-								Notes:
-								<ol>
-									<li>
-										Table ID is the filename of the table data, but does NOT include the extension.
-									</li>
-									<li>
-										Column ID is the position of the column in the input, starting from 0, i.e.,
-										first column's ID is 0.
-									</li>
-									<li>
-										One submission file should have NO duplicate lines for each target column.
-									</li>
-									<li>
-										Annotations for columns out of the target columns are ignored.
-									</li>
-								</ol>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Link</dt>
-									<dd class="col-sm-9"><a
-											href="https://github.com/sem-tab-challenge/2023/blob/main/datasets/WikidataTables2023R1.tar.gz"
-											target="_blank">Round #1 WikidataTables Dataset</a></dd>
-
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9">
-										<p>The dataset contains:</p>
-										<ul>
-											<li>evaluator codes (CTA_WD_Evaluator.py)</li>
-											<li>the validation set (DataSets/Valid/gt/cta_gt.csv,
-												DataSets/Valid/gt/cta_gt_ancestor.json,
-												DataSets/Valid/gt/cta_gt_descendent.json,
-												DataSets/Valid/tables)
-											</li>
-											<li>the testing set (DataSets/Test/tables,
-												DataSets/Test/target/cta_gt.csv)
-											</li>
-										</ul>
-									</dd>
-
-									<dt class="col-sm-3">Format</dt>
-									<dd class="col-sm-9">
-										One table is stored in one CSV file. Each line corresponds to a table row. The
-										first row may either be the table header or content. The target columns for
-										annotation are
-										saved
-										in a CSV file. The CTA GTs' ancestors and descendents are saved in two json
-										files,
-										respectively.
-									</dd>
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									We encourage one perfect annotation, and at same time score one of its ancestors
-									(okay
-									annotation). Thus we calculate Approximate Precision (\(APrecision\)), Approximate
-									Recall
-									(\(ARecall\)), and Approximate F1 Score (\(AF1\)):
-
-									\[APrecision = {\sum_{a \in all\ annotations}g(a) \over all\ annotations\ \#}\]
-
-									\[ARecall = {\sum_{col \in all\ target\ columns}(max\_annotation\_score(col)) \over
-									all\ target\
-									columns\ \#}\]
-
-									\[AF1 = {2 \times APrecision \times ARecall \over APrecision + ARecall}\]
-
-								</p>
-
-								Notes:
-
-								<ol>
-									<li>
-										# denotes the number.
-									</li>
-									<li>
-										\(
-										g(a) =
-										\begin{cases}
-										1.0, & \text{ if } a \text{ is a perfect annotation} \\
-										0.8^{d(a)}, & \text{ if } a \text{ is an ancestor of the perfect annotation and
-										} d(a) < 5 \\ 0.7^{d(a)}, & \text{ if } a \text{ is a descendent of the perfect
-											annotation and } d(a) < 3 \\ 0, & otherwise \end{cases} \) <p>
-											where \(d(a)\) is the depth to the perfect annotation.
-											E.g., \(d(a)=1\) if \(a\) is a parent of the perfect annotation, and
-											\(d(a)=2\) if \(a\)
-											is a grandparent of the perfect annotation.
-											</p>
-									</li>
-									<li>
-										\(
-										max\_annotation\_score(col) =
-										\begin{cases}
-										g(a), & \text{ if } col \text{ has an annotation } a \\
-										0, & \text{ if } col \text{ has no annotation }
-										\end{cases}
-
-										\)
-									</li>
-									<li>
-										\(AF1\) is used as the primary score, and \(APrecision\) is used as the
-										secondary score.
-									</li>
-									<li>
-										A cell may have multiple equivalent Wikidata items as its GT (e.g., redirected
-										pages
-										Q20514736 and Q852446). For an annotated entity, our evaluator will calculate
-										the score with
-										each GT entity and select the maximum score.
-									</li>
-								</ol>
-
-								<h5>Submission</h5>
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_WikidataTablesR1_CTA.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a> </div>
-							</div>
-							<!--Task Block End-->
-
-
-							<!--Task Block-->
-							<div class="tab-pane fade" id="round1-cpa-wd-tab-pane" role="tabpanel"
-								aria-labelledby="round1-cpa-wd-tab" tabindex="0">
-								<h4>Column Property Annotation by Wikidata (CPA-WD)</h4>
-								<p>
-									This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
-									Graph
-									Matching".
-									It is to annotate column relationships in a table with properties of
-									<strong>Wikidata</strong>.<br>
-									<i class="bi bi-lightbulb-fill" style="color: var(--bs-yellow)"></i>
-									Note: The evaluation will be based on annotations using Feb 1, 2023 version of
-									Wikidata. Participants may use <a href="https://zenodo.org/record/7829583">this
-										static dump from Feb 1, 2023</a>, or the public Wikidata endpoint (or its API).
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									The task is to annotate each column pair with a property of Wikidata.
-									Each submission should contain an annotation of a target column pair. Note the order
-									of the two
-									columns matters. The annotation property should start with the prefix of
-									http://www.wikidata.org/prop/direct/. Case is NOT sensitive.
-								</p>
-								<p>
-									The submission file should be in CSV format.
-									Each line should contain the annotation of two columns which is identified by a
-									table id, column
-									id one and column id two.
-									Namely one line should have four fields: "Table ID", "Column ID 1", "Column ID 2"
-									and "Property
-									IRI".
-									Each column pair should be annotated by <strong>at most one property</strong>.
-									The headers should be excluded from the submission file.
-									Here is an example: "OHGI1JNY","0","1","http://www.wikidata.org/prop/direct/P702".
-									Please use the prefix of http://www.wikidata.org/prop/direct/ instead of
-									https://www.wikidata.org/wiki/ which is the prefix of the Wikidata page URL.
-								</p>
-
-								Notes:
-								<ol>
-									<li>
-										Table ID does not include filename extension; make sure you remove the .csv
-										extension from
-										the filename.
-									</li>
-									<li>
-										Column ID is the position of the column in the table file, starting from 0,
-										i.e., first
-										column's ID is 0.
-									</li>
-									<li>
-										One submission file should have NO duplicate lines for one column pair.
-									<li>
-										Annotations for column pairs out of the targets are ignored.
-									</li>
-								</ol>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Link</dt>
-									<dd class="col-sm-9"><a
-											href="https://github.com/sem-tab-challenge/2023/blob/main/datasets/WikidataTables2023R1.tar.gz"
-											target="_blank">Round #1 WikidataTables Dataset</a></dd>
-
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9">
-										<p>The dataset contains:</p>
-										<ul>
-											<li>evaluator codes (CPA_WD_Evaluator.py))</li>
-											<li>the validation set (DataSets/Valid/gt/cpa_gt.csv,
-												DataSets/Valid/tables)
-											</li>
-											<li>the testing set (DataSets/Test/tables,
-												DataSets/Test/target/cpa_target.csv)
-											</li>
-										</ul>
-									</dd>
-
-									<dt class="col-sm-3">Format</dt>
-									<dd class="col-sm-9">
-										One table is stored in one CSV file. Each line corresponds to a table row. The
-										first row may
-										either be the table header or content. The target cells for annotation are saved
-										in a CSV
-										file.
-									</dd>
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Precision, Recall and F1 Score are calculated:
-
-									\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
-
-									\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
-
-									\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
-
-								</p>
-
-								Notes:
-
-								<ol>
-									<li>
-										# denotes the number.
-									</li>
-									<li>
-										\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
-										score.
-									</li>
-									<li>
-										One target column pair, one ground truth annotation, i.e., # ground truth
-										annotations = #
-										target column pairs.
-									</li>
-								</ol>
-
-								<h5>Submission</h5>
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_WikidataTablesR1_CPA.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a> </div>
-							</div>
-							<!--Task Block End-->
-
-
-							<!--Task Block-->
-							<div class="tab-pane fade" id="round1-tfood-td-tab-pane" role="tabpanel"
-								aria-labelledby="round1-tfood-td-tab" tabindex="0">
-								<h4>tFood Topic Detection (tFood-TD)</h4>
-								<p>
-									This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
-									Graph
-									Matching".
-									It's to annotate an entire table to instances/entities or types/classes from
-									<strong>Wikidata</strong> (for offline use:
-									<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a> or <a
-										href="https://zenodo.org/record/7829583">2023-02-01</a>).
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									The task is to annotate each table to a KG entity or class.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Use the '<strong>NIL</strong>' annotation when the table should be annotated with a
-									concept
-									that is <strong>NOT</strong> represented in the KG.
-								</div>
-								<p>
-									Each submission should be a CSV file.
-									Each line should include a table id and table's annotation (a Wikidata
-									entity/class).
-								</p>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a href="https://doi.org/10.5281/zenodo.7828162"
-											target="_blank">(1) tFood dataset at SemTab 2023 Round 1</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
-											target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
-									</dd>
-
-
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										<p>The dataset provide:</p>
-										<ul>
-											<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset:
-												1) Horizontal Relational Tables and 2) Entity Tables.</li>
-
-											<li><u>Annotation tasks per table type:</u> </li>
-
-											<li> a) Horizontal Relational Tables
-												<br> 1) Topic Detection (TD)
-												<br> 2) Cell Entity Annotation (CEA)
-												<br> 3) Column Type Annotation (CTA)
-												<br> 4) Column Property Annotation (CPA)
-											</li>
-
-											<li> b) Entity Tables
-												<br> 1) Topic Detection (TD)
-												<br> 2) Cell Entity Annotation (CEA)
-												<br>
-											</li>
-
-											<li><u>Validation/Test splits:</u> the ground truth data for each task is
-												provided in the validation (val) set however, it is not the case with
-												the test set.</li>
-
-											<li><u> Irrelevant Ground Truth:</u>
-												<br> Please ignore any other provided ground truth and targets other
-												than the tasks specified in this page for for each table type.
-												<br> E.g., exclude: <code>entity/val/gt/cpa_gt.csv</code> and
-												<code>entity/val/targets/cpa_gt.csv</code>
-											</li>
-
-											<li><u>Evaluator Code</u> could be used to evaluate your solutions using the
-												provided ground truth data for the validation (val) set. </li>
-
-											<li><u>Evaluation Rules</u>
-												<br> 1) One submission file should have NO duplicate lines for each
-												target column.
-												<!--<br> 2) Annotations for columns out of the target columns are ignored.-->
-												<br> 2) Table ID is the filename of the table data, but does NOT include
-												the extension (i.e. "csv").
-												<br> 3) The annotation should be represented by its full IRI, where the
-												case is NOT sensitive.
-												<br> 4) The headers should be excluded from the submission file.
-											</li>
-											<li><u>Submission File Format</u>
-												<br> General speaking, the submission file should match the format of
-												the provided ground truth file, one file where each line has:
-												<br> TABLE_ID,ANNOTATION
-											</li>
-
-										</ul>
-									</dd>
-
-
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Precision, Recall and F1 Score are calculated:
-
-									\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
-
-									\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
-
-									\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
-								</p>
-
-								Notes:
-								<ol>
-									<li>
-										# denotes the number.
-									</li>
-									<li>
-										\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
-										score.
-									</li>
-								</ol>
-
-								<h5>Submission</h5>
-
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
-								</div>
-
-							</div>
-							<!--Task Block End-->
-
-
-							<!--Task Block-->
-							<div class="tab-pane fade" id="round1-tfood-cea-tab-pane" role="tabpanel"
-								aria-labelledby="round1-tfood-cea-tab" tabindex="0">
-								<h4>tFood Cell Entity Annotation (tFood-CEA)</h4>
-								<p>
-									This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
-									Graph
-									Matching".
-									It's to annotate a table cell with entities from <strong>Wikidata</strong> (for
-									offline use:
-									<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a> or <a
-										href="https://zenodo.org/record/7829583">2023-02-01</a>).
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									The task is to annotate each table cell to a KG entity.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Use the '<strong>NIL</strong>' annotation when the cell should be annotated with a
-									concept
-									that is <strong>NOT</strong> represented in the KG.
-								</div>
-								<p>
-									Each submission should be a CSV file.
-									Each line should include a cell (col_id, row_id) identified by table id and
-									cell's annotation (a Wikidata entity).
-								</p>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a href="https://doi.org/10.5281/zenodo.7828162"
-											target="_blank">(1) tFood dataset at SemTab 2023 Round 1</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
-											target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
-									</dd>
-
-
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										<p>The dataset provide:</p>
-										<ul>
-											<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset:
-												1) Horizontal Relational Tables and 2) Entity Tables.</li>
-
-											<li><u>Annotation tasks per table type:</u> </li>
-
-											<li> a) Horizontal Relational Tables
-												<br> 1) Topic Detection (TD)
-												<br> 2) Cell Entity Annotation (CEA)
-												<br> 3) Column Type Annotation (CTA)
-												<br> 4) Column Property Annotation (CPA)
-											</li>
-
-											<li> b) Entity Tables
-												<br> 1) Topic Detection (TD)
-												<br> 2) Cell Entity Annotation (CEA)
-												<br>
-											</li>
-
-											<li><u>Validation/Test splits:</u> the ground truth data for each task is
-												provided in the validation (val) set however, it is not the case with
-												the test set.</li>
-
-											<li><u>Irrelevant Ground Truth:</u>
-												<br> Please ignore any other provided ground truth and targets other
-												than the tasks specified in this page for for each table type.
-												<br> E.g., exclude: <code>entity/val/gt/cpa_gt.csv</code> and
-												<code>entity/val/targets/cpa_gt.csv</code>
-											</li>
-
-											<li><u>Evaluator Code</u> could be used to evaluate your solutions using the
-												provided ground truth data for the validation (val) set. </li>
-
-											<li><u>Evaluation Rules</u>
-												<br> 1) One submission file should have NO duplicate lines for each
-												target column.
-												<br> 2) Table ID is the filename of the table data, but does NOT include
-												the extension (i.e. "csv").
-												<br> 3) The annotation should be represented by its full IRI, where the
-												case is NOT sensitive.
-												<br> 4) The headers should be excluded from the submission file.
-												<br> 2) Annotations for cells out of the target cells are ignored.
-											</li>
-											<li><u>Submission File Format</u>
-												<br> General speaking, the submission file should match the format of
-												the provided ground truth file, one file where each line has:
-												<br> TABLE_ID,COL_ID,ROW_ID,ANNOTATION
-
-												<div class="alert alert-warning" role="alert">
-													for Horizontal Tables: row_id = 0 means the first row after table
-													header.
-													<br> for Entity Tables: row_id = 0 means the first row in the file
-													(Entity tables has no horizontal headers to exclude).
-												</div>
-
-											</li>
-
-										</ul>
-									</dd>
-
-
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Precision, Recall and F1 Score are calculated:
-
-									\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
-
-									\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
-
-									\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
-								</p>
-
-								Notes:
-								<ol>
-									<li>
-										# denotes the number.
-									</li>
-									<li>
-										\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
-										score.
-									</li>
-								</ol>
-
-								<h5>Submission</h5>
-
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
-								</div>
-
-							</div>
-							<!--Task Block End-->
-
-							<!--Task Block-->
-							<div class="tab-pane fade" id="round1-tfood-cta-tab-pane" role="tabpanel"
-								aria-labelledby="round1-tfood-cta-tab" tabindex="0">
-								<h4>tFood Column Type Annotation (tFood-CTA)</h4>
-								<p>
-									This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
-									Graph
-									Matching".
-									It's to annotate a table column with types from <strong>Wikidata</strong> (for
-									offline use:
-									<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a> or <a
-										href="https://zenodo.org/record/7829583">2023-02-01</a>).
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									The task is to annotate each table column to a KG concept.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Use the '<strong>NIL</strong>' annotation when the column should be annotated with a
-									concept
-									that is <strong>NOT</strong> represented in the KG.
-								</div>
-								<p>
-									Each submission should be a CSV file.
-									Each line should include a column (col_id) identified by table id and
-									column's annotation (a Wikidata concept).
-								</p>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a href="https://doi.org/10.5281/zenodo.7828162"
-											target="_blank">(1) tFood dataset at SemTab 2023 Round 1</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
-											target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
-									</dd>
-
-
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										<p>The dataset provide:</p>
-										<ul>
-											<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset:
-												1) Horizontal Relational Tables and 2) Entity Tables.</li>
-
-											<li><u>Annotation tasks per table type:</u> </li>
-
-											<li> a) Horizontal Relational Tables
-												<br> 1) Topic Detection (TD)
-												<br> 2) Cell Entity Annotation (CEA)
-												<br> 3) Column Type Annotation (CTA)
-												<br> 4) Column Property Annotation (CPA)
-											</li>
-
-											<li> b) Entity Tables
-												<br> 1) Topic Detection (TD)
-												<br> 2) Cell Entity Annotation (CEA)
-												<br>
-											</li>
-
-											<li><u>Validation/Test splits:</u> the ground truth data for each task is
-												provided in the validation (val) set however, it is not the case with
-												the test set.</li>
-
-											<li><u> Irrelevant Ground Truth:</u>
-												<br> Please ignore any other provided ground truth and targets other
-												than the tasks specified in this page for for each table type.
-												<br> E.g., exclude: <code>entity/val/gt/cpa_gt.csv</code> and
-												<code>entity/val/targets/cpa_gt.csv</code>
-											</li>
-
-											<li><u>Evaluator Code</u> could be used to evaluate your solutions using the
-												provided ground truth data for the validation (val) set. </li>
-
-											<li><u>Evaluation Rules</u>
-												<br> 1) One submission file should have NO duplicate lines for each
-												target column.
-												<br> 2) Table ID is the filename of the table data, but does NOT include
-												the extension (i.e. "csv").
-												<br> 3) The annotation should be represented by its full IRI, where the
-												case is NOT sensitive.
-												<br> 4) The headers should be excluded from the submission file.
-												<br> 2) Annotations for columns out of the target columns are ignored.
-											</li>
-											<li><u>Submission File Format</u>
-												<br> General speaking, the submission file should match the format of
-												the provided ground truth file, one file where each line has:
-												<br> TABLE_ID,COL_ID,ANNOTATION
-											</li>
-
-										</ul>
-									</dd>
-
-
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Precision, Recall and F1 Score are calculated:
-
-									\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
-
-									\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
-
-									\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
-								</p>
-
-								Notes:
-								<ol>
-									<li>
-										# denotes the number.
-									</li>
-									<li>
-										\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
-										score.
-									</li>
-								</ol>
-
-								<h5>Submission</h5>
-
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
-								</div>
-							</div>
-							<!--Task Block End-->
-
-							<!--Task Block-->
-							<div class="tab-pane fade" id="round1-tfood-cpa-tab-pane" role="tabpanel"
-								aria-labelledby="round1-tfood-cpa-tab" tabindex="0">
-								<h4>tFood Column Property Annotation (tFood-CPA)</h4>
-								<p>
-									This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
-									Graph
-									Matching".
-									It's to annotate a table column pair with properties from <strong>Wikidata</strong>
-									(for offline use:
-									<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a> or <a
-										href="https://zenodo.org/record/7829583">2023-02-01</a>).
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									The task is to annotate column pairs to a KG concept.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Use the '<strong>NIL</strong>' annotation when the column should be annotated with a
-									concept
-									that is <strong>NOT</strong> represented in the KG.
-								</div>
-								<p>
-									Each submission should be a CSV file.
-									Each line should include a column pair (subj_id, obj_id) identified by table id and
-									column pair's annotation (a Wikidata property).
-								</p>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a href="https://doi.org/10.5281/zenodo.7828162"
-											target="_blank">(1) tFood dataset at SemTab 2023 Round 1</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
-											target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
-									</dd>
-
-
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										<p>The dataset provide:</p>
-										<ul>
-											<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset:
-												1) Horizontal Relational Tables and 2) Entity Tables.</li>
-
-											<li><u>Annotation tasks per table type:</u> </li>
-
-											<li> a) Horizontal Relational Tables
-												<br> 1) Topic Detection (TD)
-												<br> 2) Cell Entity Annotation (CEA)
-												<br> 3) Column Type Annotation (CTA)
-												<br> 4) Column Property Annotation (CPA)
-											</li>
-
-											<li> b) Entity Tables
-												<br> 1) Topic Detection (TD)
-												<br> 2) Cell Entity Annotation (CEA)
-												<br>
-											</li>
-
-											<li><u>Validation/Test splits:</u> the ground truth data for each task is
-												provided in the validation (val) set however, it is not the case with
-												the test set.</li>
-
-											<li><u>Irrelevant Ground Truth:</u>
-												<br> Please ignore any other provided ground truth and targets other
-												than the tasks specified in this page for for each table type.
-												<br> E.g., exclude: <code>entity/val/gt/cpa_gt.csv</code> and
-												<code>entity/val/targets/cpa_gt.csv</code>
-											</li>
-
-											<li><u>Evaluator Code</u> could be used to evaluate your solutions using the
-												provided ground truth data for the validation (val) set. </li>
-
-											<li><u>Evaluation Rules</u>
-												<br> 1) One submission file should have NO duplicate lines for each
-												target column.
-												<br> 2) Table ID is the filename of the table data, but does NOT include
-												the extension (i.e. "csv").
-												<br> 3) The annotation should be represented by its full IRI, where the
-												case is NOT sensitive.
-												<br> 4) The headers should be excluded from the submission file.
-												<br> 2) Annotations for column-pairs out of the target column-pairs are
-												ignored.
-											</li>
-											<li><u>Submission File Format</u>
-												<br> General speaking, the submission file should match the format of
-												the provided ground truth file, one file where each line has:
-												<br> TABLE_ID,SUBJ_COL_ID,OBJ_COL_ID,ANNOTATION
-											</li>
-
-										</ul>
-									</dd>
-
-
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Precision, Recall and F1 Score are calculated:
-
-									\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
-
-									\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
-
-									\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
-								</p>
-
-								Notes:
-								<ol>
-									<li>
-										# denotes the number.
-									</li>
-									<li>
-										\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
-										score.
-									</li>
-								</ol>
-
-								<h5>Submission</h5>
-
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
-								</div>
-							</div>
-							<!--Task Block End-->
-
-							<!--Task Block SOTAB CTA-->
-							<div class="tab-pane fade" id="round1-sotab-cta-tab-pane" role="tabpanel"
-								aria-labelledby="round1-sotab-cta-tab" tabindex="0">
-								<h4>Column Type Annotation using Schema.org terms (R1-SOTAB-CTA-SCH)</h4>
-								<p>
-									<b>R1-SOTAB-CTA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
-									Data to Knowledge Graph Matching".
-									It is based on the <a
-										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
-										benchmark</a>.
-									The goal is to annotate
-									table columns with pre-defined terms from the Schema.org vocabulary.
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									In this task, the goal is to annotate the semantic types of table columns using
-									terms from a pre-defined set of Schema.org terms.
-									The problem is formulated as a multi-class classification problem where each column
-									can be annotated with only one type. The set of pre-defined
-									Schema.org terms consists of 40 terms which are listed in the
-									"cta_labels_round1.txt" file. Examples include telephone, Duration or Place/name.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Annotate columns using terms from the "cta_labels_round1.txt".
-								</div>
-								<p>
-									Each submission should be a CSV file. A line should represent one column prediction.
-									The first column should specify the name of the table, the second column should
-									specify the index of the column in the table
-									and the third column should specify the predicted label. The columns should be
-									named: "table_name", "column_index", "label".
-								</p>
-								<p>
-								<h6>Explanations:</h6>
-								<ul>
-									<li>"table_name" column should include the full name of the table including the
-										extension. (example: Product_corememoriesco.com_September2020_CTA.json.gz)</li>
-									<li>"column_index" refers to the position of the column in the table. Column indices
-										in a table start from 0.</li>
-									<li>"label" refers to the predicted label. One column should have only one predicted
-										label.</li>
-								</ul>
-								</p>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round1-SOTAB-CTA-SCH-Tables.zip"
-											target="_blank">(1) R1-SOTAB-CTA-SCH Tables at SemTab 2023 Round 1</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round1-SOTAB-CTA-Datasets.zip"
-											target="_blank">(2) Training annotations, validation annotations, test
-											targets, evaluation script and label space for R1-SOTAB-CTA-SCH.</a>
-									</dd>
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										The datasets zip file includes:
-										<ul>
-											<li>The training set is found in the file "sotab_cta_train_round1.csv" and
-												provides the table names, column indices, and ground truth labels for
-												each column. </li>
-											<li>The validation set is found in the file
-												"sotab_cta_validation_round1.csv" and has the same structure as the
-												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
-												predictions on the validation set. You can run the evaluation by
-												running:
-												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
-											</li>
-											<li>The test targets can be found in the file
-												"sotab_cta_test_targets_round1.csv". The first column indicates the
-												table name and the second the target column index which needs to be
-												predicted. Submissions need to have one prediction for each target
-												column.</li>
-											<li>All tables can be found in the links provided. One table is stored in
-												one JSON file. Each line corresponds to a table row. The tables do not
-												have any column headers. You can open a table using the following code:
-												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
-											</li>
-											<li>The label set to use for prediction is stored in the
-												"cta_labels_round1.txt" file.</li>
-										</ul>
-									</dd>
-
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
-								</p>
-
-								<h5>Submission</h5>
-
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
-								</div>
-							</div>
-							<!--Task Block End-->
-
-							<!--Task Block SOTAB CPA-->
-							<div class="tab-pane fade" id="round1-sotab-cpa-tab-pane" role="tabpanel"
-								aria-labelledby="round1-sotab-cpa-tab" tabindex="0">
-								<h4>Columns Property Annotation using Schema.org terms (R1-SOTAB-CPA-SCH)</h4>
-								<p>
-									<b>R1-SOTAB-CPA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
-									Data to Knowledge Graph Matching".
-									It is based on the <a
-										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
-										benchmark</a>.
-									The goal
-									is to annotate the relationship between the main column of a table and other columns
-									with some pre-defined terms from the Schema.org vocabulary.
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									In this task, the goal is to annotate the relationship between the main column of a
-									table and other columns using terms from a pre-defined
-									set of Schema.org terms. The problem is formulated as a multi-class classification
-									problem where each column pair can be annotated with only
-									one label. The set of pre-defined Schema.org terms consists of 50 terms which are
-									listed in the "cpa_labels_round1.txt" file. Examples include
-									telephone, isbn or description.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Annotate columns using terms from the "cpa_labels_round1.txt".
-								</div>
-								<p>
-									Each submission should be a CSV file. A line should represent one relationship
-									prediction.
-									The first column should specify the name of the table, the second column should
-									specify the index of the main column,
-									the third should specify the index of the other column and the fourth column should
-									specify the predicted label. The
-									columns should be named: "table_name", "main_column_index", "column_index", "label".
-								</p>
-								<p>
-								<h6>Explanations:</h6>
-								<ul>
-									<li>"table_name" column should include the full name of the table including the
-										extension. (example: Product_corememoriesco.com_September2020_CPA.json.gz)</li>
-									<li>"main_column_index" refers to the position of the main column in the table. Main
-										column indices in the WDC-SOTAB benchmark are always at the 0 index.</li>
-									<li>"column_index" refers to the position of the column in the table.
-										Non-main-column indices in a table start from 1.</li>
-									<li>"label" refers to the predicted label. One column pair should have only one
-										predicted label.</li>
-								</ul>
-								</p>
-
-
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round1-SOTAB-CPA-SCH-Tables.zip"
-											target="_blank">(1) R1-SOTAB-CPA-SCH Tables at SemTab 2023 Round 1</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round1-SOTAB-CPA-Datasets.zip"
-											target="_blank">(2) Training annotations, validation annotations, test
-											targets, evaluation script and label space for R1-SOTAB-CPA-SCH.</a>
-									</dd>
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										The datasets zip file includes:
-										<ul>
-											<li>The training set is found in the file "sotab_cpa_train_round1.csv" and
-												provides the table names, main column indices, column indices, and
-												ground truth labels for each column pair. </li>
-											<li>The validation set is found in the file
-												"sotab_cpa_validation_round1.csv" and has the same structure as the
-												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
-												predictions on the validation set. You can run the evaluation by
-												running:
-												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
-											</li>
-											<li>The test targets can be found in the file
-												"sotab_cpa_test_targets_round1.csv". The first column indicates the
-												table name, the second column indicates the index of the main column in
-												the table, the third column indicates the target column index and the
-												relationship between these two columns needs to be predicted.
-												Submissions need to have one prediction for each target column.</li>
-											<li>All tables can be found in the links provided. One table is stored in
-												one JSON file. Each line corresponds to a table row. The tables do not
-												have any column headers. You can open a table using the following code:
-												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
-											</li>
-											<li>The label set to use for prediction is stored in the
-												"cpa_labels_round1.txt" file.</li>
-										</ul>
-									</dd>
-
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
-								</p>
-
-								<h5>Submission</h5>
-
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
-								</div>
-							</div>
+					</div>
+					<!--Task Block End-->
+
+
+					<!--Task Block-->
+					<div class="tab-pane fade" id="round1-tfood-cea-tab-pane" role="tabpanel"
+						aria-labelledby="round1-tfood-cea-tab" tabindex="0">
+						<h4>tFood Cell Entity Annotation (tFood-CEA)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
+							Graph
+							Matching".
+							It's to annotate a table cell with entities from <strong>Wikidata</strong> (for
+							offline use:
+							<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a> or <a
+								href="https://zenodo.org/record/7829583">2023-02-01</a>).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each table cell to a KG entity.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Use the '<strong>NIL</strong>' annotation when the cell should be annotated with a
+							concept
+							that is <strong>NOT</strong> represented in the KG.
 						</div>
-						
-						<!--Round 2------------------------------------------------------------------------------>
-						<h3 class="pt-4" id="round2">Round #2</h3>
+						<p>
+							Each submission should be a CSV file.
+							Each line should include a cell (col_id, row_id) identified by table id and
+							cell's annotation (a Wikidata entity).
+						</p>
 
-					<!--Round 2 btns------------------------------------------------------------------------------>
 
-					<ul class="nav nav-tabs mb-3" id="round2-tasks-tab" role="tablist">
-						<li class="nav-item active" role="presentation">
-							<button class="nav-link active" id="round2-sotab-cta-tab" data-bs-toggle="tab"
-								data-bs-target="#round2-sotab-cta-tab-pane" type="button" role="tab"
-								aria-controls="round2-sotab-cta-tab-pane" aria-selected="true">
-								R2-SOTAB-CTA-SCH
-							</button>
-						</li>
-						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="round2-sotab-cpa-tab" data-bs-toggle="tab"
-								data-bs-target="#round2-sotab-cpa-tab-pane" type="button" role="tab"
-								aria-controls="round2-sotab-cpa-tab-pane" aria-selected="false">
-								R2-SOTAB-CPA-SCH
-							</button>
-						</li>
-						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="round2-sotab-cta-tab" data-bs-toggle="tab"
-								data-bs-target="#round2-sotab-cta-dbp-tab-pane" type="button" role="tab"
-								aria-controls="round2-sotab-cta-dbp-tab-pane" aria-selected="false">
-								R2-SOTAB-CTA-DBP
-							</button>
-						</li>
-						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="round2-sotab-cpa-tab" data-bs-toggle="tab"
-								data-bs-target="#round2-sotab-cpa-dbp-tab-pane" type="button" role="tab"
-								aria-controls="round2-sotab-cpa-dbp-tab-pane" aria-selected="false">
-								R2-SOTAB-CPA-DBP
-							</button>
-						</li>
-                        <li class="nav-item" role="presentation">
-							<button class="nav-link" id="round2-cqa-tab" data-bs-toggle="tab"
-								data-bs-target="#round2-cqa-tab-pane" type="button" role="tab"
-								aria-controls="round2-cqa-tab-pane" aria-selected="false">
-								R2-CQA
-							</button>
-						</li>
-					</ul>
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a href="https://doi.org/10.5281/zenodo.7828162" target="_blank">(1)
+									tFood dataset at SemTab 2023 Round 1</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
+									target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
+							</dd>
 
-						<div class="alert alert-primary d-flex align-items-center" role="alert">
-							<i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
-							May 15 - June 22
+
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								<p>The dataset provide:</p>
+								<ul>
+									<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset:
+										1) Horizontal Relational Tables and 2) Entity Tables.</li>
+
+									<li><u>Annotation tasks per table type:</u> </li>
+
+									<li> a) Horizontal Relational Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)
+										<br> 3) Column Type Annotation (CTA)
+										<br> 4) Column Property Annotation (CPA)
+									</li>
+
+									<li> b) Entity Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)
+										<br>
+									</li>
+
+									<li><u>Validation/Test splits:</u> the ground truth data for each task is
+										provided in the validation (val) set however, it is not the case with
+										the test set.</li>
+
+									<li><u>Irrelevant Ground Truth:</u>
+										<br> Please ignore any other provided ground truth and targets other
+										than the tasks specified in this page for for each table type.
+										<br> E.g., exclude: <code>entity/val/gt/cpa_gt.csv</code> and
+										<code>entity/val/targets/cpa_gt.csv</code>
+									</li>
+
+									<li><u>Evaluator Code</u> could be used to evaluate your solutions using the
+										provided ground truth data for the validation (val) set. </li>
+
+									<li><u>Evaluation Rules</u>
+										<br> 1) One submission file should have NO duplicate lines for each
+										target column.
+										<br> 2) Table ID is the filename of the table data, but does NOT include
+										the extension (i.e. "csv").
+										<br> 3) The annotation should be represented by its full IRI, where the
+										case is NOT sensitive.
+										<br> 4) The headers should be excluded from the submission file.
+										<br> 2) Annotations for cells out of the target cells are ignored.
+									</li>
+									<li><u>Submission File Format</u>
+										<br> General speaking, the submission file should match the format of
+										the provided ground truth file, one file where each line has:
+										<br> TABLE_ID,COL_ID,ROW_ID,ANNOTATION
+
+										<div class="alert alert-warning" role="alert">
+											for Horizontal Tables: row_id = 0 means the first row after table
+											header.
+											<br> for Entity Tables: row_id = 0 means the first row in the file
+											(Entity tables has no horizontal headers to exclude).
+										</div>
+
+									</li>
+
+								</ul>
+							</dd>
+
+
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
+
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
+
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
+
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
+								score.
+							</li>
+						</ol>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
 						</div>
 
-						<!--Round 2 Content------------------------------------------------------------------------------>
-						<div class="tab-content" id="round2-tasks-tab-content">
-							<!--Task Block SOTAB CTA-->
-							<div class="tab-pane fade show active" id="round2-sotab-cta-tab-pane" role="tabpanel"
-								aria-labelledby="round2-sotab-cta-tab" tabindex="0">
-								<h4>Column Type Annotation using Schema.org terms (R2-SOTAB-CTA-SCH)</h4>
-								<p>
-									<b>R2-SOTAB-CTA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
-									Data to Knowledge Graph Matching".
-									It is based on the <a
-										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
-										benchmark</a>.
-									The goal is to annotate
-									table columns with pre-defined terms from the Schema.org vocabulary.
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									In this task, the goal is to annotate the semantic types of table columns using
-									terms from a pre-defined set of Schema.org terms.
-									The problem is formulated as a multi-class classification problem where each column
-									can be annotated with only one type. The set of pre-defined
-									Schema.org terms consists of 80 terms which are listed in the
-									"cta_labels_round2.txt" file. Examples include telephone, Duration or Place/name.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Annotate columns using terms from the "cta_labels_round2.txt".
-								</div>
-								<p>
-									Each submission should be a CSV file. A line should represent one column prediction.
-									The first column should specify the name of the table, the second column should
-									specify the index of the column in the table
-									and the third column should specify the predicted label. The columns should be
-									named: "table_name", "column_index", "label".
-								</p>
-								<p>
-								<h6>Explanations:</h6>
+					</div>
+					<!--Task Block End-->
+
+					<!--Task Block-->
+					<div class="tab-pane fade" id="round1-tfood-cta-tab-pane" role="tabpanel"
+						aria-labelledby="round1-tfood-cta-tab" tabindex="0">
+						<h4>tFood Column Type Annotation (tFood-CTA)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
+							Graph
+							Matching".
+							It's to annotate a table column with types from <strong>Wikidata</strong> (for
+							offline use:
+							<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a> or <a
+								href="https://zenodo.org/record/7829583">2023-02-01</a>).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate each table column to a KG concept.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Use the '<strong>NIL</strong>' annotation when the column should be annotated with a
+							concept
+							that is <strong>NOT</strong> represented in the KG.
+						</div>
+						<p>
+							Each submission should be a CSV file.
+							Each line should include a column (col_id) identified by table id and
+							column's annotation (a Wikidata concept).
+						</p>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a href="https://doi.org/10.5281/zenodo.7828162" target="_blank">(1)
+									tFood dataset at SemTab 2023 Round 1</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
+									target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
+							</dd>
+
+
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								<p>The dataset provide:</p>
 								<ul>
-									<li>"table_name" column should include the full name of the table including the
-										extension. (example: Product_corememoriesco.com_September2020_CTA.json.gz)</li>
-									<li>"column_index" refers to the position of the column in the table. Column indices
-										in a table start from 0.</li>
-									<li>"label" refers to the predicted label. One column should have only one predicted
-										label.</li>
+									<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset:
+										1) Horizontal Relational Tables and 2) Entity Tables.</li>
+
+									<li><u>Annotation tasks per table type:</u> </li>
+
+									<li> a) Horizontal Relational Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)
+										<br> 3) Column Type Annotation (CTA)
+										<br> 4) Column Property Annotation (CPA)
+									</li>
+
+									<li> b) Entity Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)
+										<br>
+									</li>
+
+									<li><u>Validation/Test splits:</u> the ground truth data for each task is
+										provided in the validation (val) set however, it is not the case with
+										the test set.</li>
+
+									<li><u> Irrelevant Ground Truth:</u>
+										<br> Please ignore any other provided ground truth and targets other
+										than the tasks specified in this page for for each table type.
+										<br> E.g., exclude: <code>entity/val/gt/cpa_gt.csv</code> and
+										<code>entity/val/targets/cpa_gt.csv</code>
+									</li>
+
+									<li><u>Evaluator Code</u> could be used to evaluate your solutions using the
+										provided ground truth data for the validation (val) set. </li>
+
+									<li><u>Evaluation Rules</u>
+										<br> 1) One submission file should have NO duplicate lines for each
+										target column.
+										<br> 2) Table ID is the filename of the table data, but does NOT include
+										the extension (i.e. "csv").
+										<br> 3) The annotation should be represented by its full IRI, where the
+										case is NOT sensitive.
+										<br> 4) The headers should be excluded from the submission file.
+										<br> 2) Annotations for columns out of the target columns are ignored.
+									</li>
+									<li><u>Submission File Format</u>
+										<br> General speaking, the submission file should match the format of
+										the provided ground truth file, one file where each line has:
+										<br> TABLE_ID,COL_ID,ANNOTATION
+									</li>
+
 								</ul>
-								</p>
+							</dd>
 
 
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-Tables.zip"
-											target="_blank">(1) R2-SOTAB-CTA Tables at SemTab 2023 Round 2</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-SCH-Datasets.zip"
-											target="_blank">(2) Training annotations, validation annotations, test
-											targets, evaluation script and label space for R2-SOTAB-CTA-SCH.</a>
-									</dd>
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										The datasets zip file includes:
-										<ul>
-											<li>The training set is found in the file "sotab_cta_train_round2.csv" and
-												provides the table names, column indices, and ground truth labels for
-												each column. </li>
-											<li>The validation set is found in the file
-												"sotab_cta_validation_round2.csv" and has the same structure as the
-												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
-												predictions on the validation set. You can run the evaluation by
-												running:
-												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
-											</li>
-											<li>The test targets can be found in the file
-												"sotab_cta_test_targets_round2.csv". The first column indicates the
-												table name and the second the target column index which needs to be
-												predicted. Submissions need to have one prediction for each target
-												column.</li>
-											<li>All tables can be found in the links provided. One table is stored in
-												one JSON file. Each line corresponds to a table row. The tables do not
-												have any column headers. You can open a table using the following code:
-												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
-											</li>
-											<li>The label set to use for prediction is stored in the
-												"cta_labels_round2.txt" file.</li>
-										</ul>
-									</dd>
+						</dl>
 
-								</dl>
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
 
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
-								</p>
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
 
-								<h5>Submission</h5>
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
 
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>
-								</div>
-							</div>
-							<!--Task Block End-->
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+						</p>
 
-							<!--Task Block SOTAB CPA-->
-							<div class="tab-pane fade" id="round2-sotab-cpa-tab-pane" role="tabpanel"
-								aria-labelledby="round2-sotab-cpa-tab" tabindex="0">
-								<h4>Columns Property Annotation using Schema.org terms (R2-SOTAB-CPA-SCH)</h4>
-								<p>
-									<b>R2-SOTAB-CPA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
-									Data to Knowledge Graph Matching".
-									It is based on the <a
-										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
-										benchmark</a>.
-									The goal
-									is to annotate the relationship between the main column of a table and other columns
-									with some pre-defined terms from the Schema.org vocabulary.
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									In this task, the goal is to annotate the relationship between the main column of a
-									table and other columns using terms from a pre-defined
-									set of Schema.org terms. The problem is formulated as a multi-class classification
-									problem where each column pair can be annotated with only
-									one label. The set of pre-defined Schema.org terms consists of 105 terms which are
-									listed in the "cpa_labels_round2.txt" file. Examples include
-									telephone, isbn or description.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Annotate columns using terms from the "cpa_labels_round2.txt".
-								</div>
-								<p>
-									Each submission should be a CSV file. A line should represent one relationship
-									prediction.
-									The first column should specify the name of the table, the second column should
-									specify the index of the main column,
-									the third should specify the index of the other column and the fourth column should
-									specify the predicted label. The
-									columns should be named: "table_name", "main_column_index", "column_index", "label".
-								</p>
-								<p>
-								<h6>Explanations:</h6>
+						Notes:
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
+								score.
+							</li>
+						</ol>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
+						</div>
+					</div>
+					<!--Task Block End-->
+
+					<!--Task Block-->
+					<div class="tab-pane fade" id="round1-tfood-cpa-tab-pane" role="tabpanel"
+						aria-labelledby="round1-tfood-cpa-tab" tabindex="0">
+						<h4>tFood Column Property Annotation (tFood-CPA)</h4>
+						<p>
+							This is a task of ISWC 2023 "Semantic Web Challenge on Tabular Data to Knowledge
+							Graph
+							Matching".
+							It's to annotate a table column pair with properties from <strong>Wikidata</strong>
+							(for offline use:
+							<a href="https://dumps.wikimedia.org/wikidatawiki/20230320/">2023-03-20</a> or <a
+								href="https://zenodo.org/record/7829583">2023-02-01</a>).
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							The task is to annotate column pairs to a KG concept.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Use the '<strong>NIL</strong>' annotation when the column should be annotated with a
+							concept
+							that is <strong>NOT</strong> represented in the KG.
+						</div>
+						<p>
+							Each submission should be a CSV file.
+							Each line should include a column pair (subj_id, obj_id) identified by table id and
+							column pair's annotation (a Wikidata property).
+						</p>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a href="https://doi.org/10.5281/zenodo.7828162" target="_blank">(1)
+									tFood dataset at SemTab 2023 Round 1</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/sem-tab-challenge/2023/blob/main/evaluator_codes/tfood_evaluators.zip"
+									target="_blank">(2) Evaluator Codes for tFood at SemTab 2023 Round 1</a>
+							</dd>
+
+
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								<p>The dataset provide:</p>
 								<ul>
-									<li>"table_name" column should include the full name of the table including the
-										extension. (example: Product_corememoriesco.com_September2020_CPA.json.gz)</li>
-									<li>"main_column_index" refers to the position of the main column in the table. Main
-										column indices in the WDC-SOTAB benchmark are always at the 0 index.</li>
-									<li>"column_index" refers to the position of the column in the table.
-										Non-main-column indices in a table start from 1.</li>
-									<li>"label" refers to the predicted label. One column pair should have only one
-										predicted label.</li>
+									<li><u>Table Types</u> Two types of tables to be annotated in tFood dataset:
+										1) Horizontal Relational Tables and 2) Entity Tables.</li>
+
+									<li><u>Annotation tasks per table type:</u> </li>
+
+									<li> a) Horizontal Relational Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)
+										<br> 3) Column Type Annotation (CTA)
+										<br> 4) Column Property Annotation (CPA)
+									</li>
+
+									<li> b) Entity Tables
+										<br> 1) Topic Detection (TD)
+										<br> 2) Cell Entity Annotation (CEA)
+										<br>
+									</li>
+
+									<li><u>Validation/Test splits:</u> the ground truth data for each task is
+										provided in the validation (val) set however, it is not the case with
+										the test set.</li>
+
+									<li><u>Irrelevant Ground Truth:</u>
+										<br> Please ignore any other provided ground truth and targets other
+										than the tasks specified in this page for for each table type.
+										<br> E.g., exclude: <code>entity/val/gt/cpa_gt.csv</code> and
+										<code>entity/val/targets/cpa_gt.csv</code>
+									</li>
+
+									<li><u>Evaluator Code</u> could be used to evaluate your solutions using the
+										provided ground truth data for the validation (val) set. </li>
+
+									<li><u>Evaluation Rules</u>
+										<br> 1) One submission file should have NO duplicate lines for each
+										target column.
+										<br> 2) Table ID is the filename of the table data, but does NOT include
+										the extension (i.e. "csv").
+										<br> 3) The annotation should be represented by its full IRI, where the
+										case is NOT sensitive.
+										<br> 4) The headers should be excluded from the submission file.
+										<br> 2) Annotations for column-pairs out of the target column-pairs are
+										ignored.
+									</li>
+									<li><u>Submission File Format</u>
+										<br> General speaking, the submission file should match the format of
+										the provided ground truth file, one file where each line has:
+										<br> TABLE_ID,SUBJ_COL_ID,OBJ_COL_ID,ANNOTATION
+									</li>
+
 								</ul>
-								</p>
+							</dd>
 
 
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-Tables.zip"
-											target="_blank">(1) R2-SOTAB-CPA Tables at SemTab 2023 Round 2</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-SCH-Datasets.zip"
-											target="_blank">(2) Training annotations, validation annotations, test
-											targets, evaluation script and label space for R2-SOTAB-CPA-SCH.</a>
-									</dd>
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										The datasets zip file includes:
-										<ul>
-											<li>The training set is found in the file "sotab_cpa_train_round2.csv" and
-												provides the table names, main column indices, column indices, and
-												ground truth labels for each column pair. </li>
-											<li>The validation set is found in the file
-												"sotab_cpa_validation_round2.csv" and has the same structure as the
-												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
-												predictions on the validation set. You can run the evaluation by
-												running:
-												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
-											</li>
-											<li>The test targets can be found in the file
-												"sotab_cpa_test_targets_round2.csv". The first column indicates the
-												table name, the second column indicates the index of the main column in
-												the table, the third column indicates the target column index and the
-												relationship between these two columns needs to be predicted.
-												Submissions need to have one prediction for each target column.</li>
-											<li>All tables can be found in the links provided. One table is stored in
-												one JSON file. Each line corresponds to a table row. The tables do not
-												have any column headers. You can open a table using the following code:
-												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
-											</li>
-											<li>The label set to use for prediction is stored in the
-												"cpa_labels_round2.txt" file.</li>
-										</ul>
-									</dd>
+						</dl>
 
-								</dl>
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Precision, Recall and F1 Score are calculated:
 
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
-								</p>
+							\[Precision = {{correct\_annotations \#} \over {submitted\_annotations \#}}\]
 
-								<h5>Submission</h5>
+							\[Recall = {{correct\_annotations \#} \over {ground\_truth\_annotations \#}}\]
 
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>
-								</div>
-							</div>	
-							
-							
-							<!--Task Block SOTAB CTA DBP-->
-							<div class="tab-pane fade" id="round2-sotab-cta-dbp-tab-pane" role="tabpanel"
-								aria-labelledby="round2-sotab-cta-dbp-tab" tabindex="0">
-								<h4>Column Type Annotation using DBpedia (R2-SOTAB-CTA-DBP)</h4>
-								<p>
-									<b>R2-SOTAB-CTA-DBP</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
-									Data to Knowledge Graph Matching".
-									It is based on the <a
-										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
-										benchmark</a>.
-									The goal is to annotate
-									table columns with pre-defined terms from DBpedia.
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									In this task, the goal is to annotate the semantic types of table columns using
-									terms from a pre-defined set of DBpedia terms.
-									The problem is formulated as a multi-class classification problem where each column
-									can be annotated with only one type. The set of pre-defined
-									Schema.org terms consists of 46 terms which are listed in the
-									"cta_labels_round2_dbpedia.txt" file.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Annotate columns using terms from the "cta_labels_round2_dbpedia.txt".
-								</div>
-								<p>
-									Each submission should be a CSV file. A line should represent one column prediction.
-									The first column should specify the name of the table, the second column should
-									specify the index of the column in the table
-									and the third column should specify the predicted label. The columns should be
-									named: "table_name", "column_index", "label".
-								</p>
-								<p>
-								<h6>Explanations:</h6>
+							\[F1 = {2 \times Precision \times Recall \over Precision + Recall}\]
+						</p>
+
+						Notes:
+						<ol>
+							<li>
+								# denotes the number.
+							</li>
+							<li>
+								\(F1\) is used as the primary score, and \(Precision\) is used as the secondary
+								score.
+							</li>
+						</ol>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
+						</div>
+					</div>
+					<!--Task Block End-->
+
+					<!--Task Block SOTAB CTA-->
+					<div class="tab-pane fade" id="round1-sotab-cta-tab-pane" role="tabpanel"
+						aria-labelledby="round1-sotab-cta-tab" tabindex="0">
+						<h4>Column Type Annotation using Schema.org terms (R1-SOTAB-CTA-SCH)</h4>
+						<p>
+							<b>R1-SOTAB-CTA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+							Data to Knowledge Graph Matching".
+							It is based on the <a href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+								benchmark</a>.
+							The goal is to annotate
+							table columns with pre-defined terms from the Schema.org vocabulary.
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							In this task, the goal is to annotate the semantic types of table columns using
+							terms from a pre-defined set of Schema.org terms.
+							The problem is formulated as a multi-class classification problem where each column
+							can be annotated with only one type. The set of pre-defined
+							Schema.org terms consists of 40 terms which are listed in the
+							"cta_labels_round1.txt" file. Examples include telephone, Duration or Place/name.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Annotate columns using terms from the "cta_labels_round1.txt".
+						</div>
+						<p>
+							Each submission should be a CSV file. A line should represent one column prediction.
+							The first column should specify the name of the table, the second column should
+							specify the index of the column in the table
+							and the third column should specify the predicted label. The columns should be
+							named: "table_name", "column_index", "label".
+						</p>
+						<p>
+						<h6>Explanations:</h6>
+						<ul>
+							<li>"table_name" column should include the full name of the table including the
+								extension. (example: Product_corememoriesco.com_September2020_CTA.json.gz)</li>
+							<li>"column_index" refers to the position of the column in the table. Column indices
+								in a table start from 0.</li>
+							<li>"label" refers to the predicted label. One column should have only one predicted
+								label.</li>
+						</ul>
+						</p>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round1-SOTAB-CTA-SCH-Tables.zip"
+									target="_blank">(1) R1-SOTAB-CTA-SCH Tables at SemTab 2023 Round 1</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round1-SOTAB-CTA-Datasets.zip"
+									target="_blank">(2) Training annotations, validation annotations, test
+									targets, evaluation script and label space for R1-SOTAB-CTA-SCH.</a>
+							</dd>
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								The datasets zip file includes:
 								<ul>
-									<li>"table_name" column should include the full name of the table including the
-										extension. (example: Product_corememoriesco.com_September2020_CTA.json.gz)</li>
-									<li>"column_index" refers to the position of the column in the table. Column indices
-										in a table start from 0.</li>
-									<li>"label" refers to the predicted label. One column should have only one predicted
-										label.</li>
+									<li>The training set is found in the file "sotab_cta_train_round1.csv" and
+										provides the table names, column indices, and ground truth labels for
+										each column. </li>
+									<li>The validation set is found in the file
+										"sotab_cta_validation_round1.csv" and has the same structure as the
+										training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+										predictions on the validation set. You can run the evaluation by
+										running:
+										<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+									</li>
+									<li>The test targets can be found in the file
+										"sotab_cta_test_targets_round1.csv". The first column indicates the
+										table name and the second the target column index which needs to be
+										predicted. Submissions need to have one prediction for each target
+										column.</li>
+									<li>All tables can be found in the links provided. One table is stored in
+										one JSON file. Each line corresponds to a table row. The tables do not
+										have any column headers. You can open a table using the following code:
+										<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+									</li>
+									<li>The label set to use for prediction is stored in the
+										"cta_labels_round1.txt" file.</li>
 								</ul>
-								</p>
+							</dd>
+
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+						</p>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
+						</div>
+					</div>
+					<!--Task Block End-->
+
+					<!--Task Block SOTAB CPA-->
+					<div class="tab-pane fade" id="round1-sotab-cpa-tab-pane" role="tabpanel"
+						aria-labelledby="round1-sotab-cpa-tab" tabindex="0">
+						<h4>Columns Property Annotation using Schema.org terms (R1-SOTAB-CPA-SCH)</h4>
+						<p>
+							<b>R1-SOTAB-CPA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+							Data to Knowledge Graph Matching".
+							It is based on the <a href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+								benchmark</a>.
+							The goal
+							is to annotate the relationship between the main column of a table and other columns
+							with some pre-defined terms from the Schema.org vocabulary.
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							In this task, the goal is to annotate the relationship between the main column of a
+							table and other columns using terms from a pre-defined
+							set of Schema.org terms. The problem is formulated as a multi-class classification
+							problem where each column pair can be annotated with only
+							one label. The set of pre-defined Schema.org terms consists of 50 terms which are
+							listed in the "cpa_labels_round1.txt" file. Examples include
+							telephone, isbn or description.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Annotate columns using terms from the "cpa_labels_round1.txt".
+						</div>
+						<p>
+							Each submission should be a CSV file. A line should represent one relationship
+							prediction.
+							The first column should specify the name of the table, the second column should
+							specify the index of the main column,
+							the third should specify the index of the other column and the fourth column should
+							specify the predicted label. The
+							columns should be named: "table_name", "main_column_index", "column_index", "label".
+						</p>
+						<p>
+						<h6>Explanations:</h6>
+						<ul>
+							<li>"table_name" column should include the full name of the table including the
+								extension. (example: Product_corememoriesco.com_September2020_CPA.json.gz)</li>
+							<li>"main_column_index" refers to the position of the main column in the table. Main
+								column indices in the WDC-SOTAB benchmark are always at the 0 index.</li>
+							<li>"column_index" refers to the position of the column in the table.
+								Non-main-column indices in a table start from 1.</li>
+							<li>"label" refers to the predicted label. One column pair should have only one
+								predicted label.</li>
+						</ul>
+						</p>
 
 
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-Tables.zip"
-											target="_blank">(1) R2-SOTAB-CTA Tables at SemTab 2023 Round 2</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-DBP-Datasets.zip"
-											target="_blank">(2) Training annotations, validation annotations, test
-											targets, evaluation script and label space for R2-SOTAB-CTA-DBP.</a>
-									</dd>
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										The datasets zip file includes:
-										<ul>
-											<li>The training set is found in the file "sotab_cta_train_round2_dbpedia.csv" and
-												provides the table names, column indices, and ground truth labels for
-												each column. </li>
-											<li>The validation set is found in the file
-												"sotab_cta_validation_round2_dbpedia.csv" and has the same structure as the
-												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
-												predictions on the validation set. You can run the evaluation by
-												running:
-												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
-											</li>
-											<li>The test targets can be found in the file
-												"sotab_cta_test_targets_round2_dbpedia.csv". The first column indicates the
-												table name and the second the target column index which needs to be
-												predicted. Submissions need to have one prediction for each target
-												column.</li>
-											<li>All tables can be found in the links provided. One table is stored in
-												one JSON file. Each line corresponds to a table row. The tables do not
-												have any column headers. You can open a table using the following code:
-												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
-											</li>
-											<li>The label set to use for prediction is stored in the
-												"cta_labels_round2_dbpedia.txt" file.</li>
-										</ul>
-									</dd>
-
-								</dl>
-
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
-								</p>
-
-								<h5>Submission</h5>
-
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>
-								</div>
-							</div>
-							<!--Task Block End-->
-
-							<!--Task Block SOTAB CPA DBP-->
-							<div class="tab-pane fade" id="round2-sotab-cpa-dbp-tab-pane" role="tabpanel"
-								aria-labelledby="round2-sotab-cpa-dbp-tab" tabindex="0">
-								<h4>Columns Property Annotation using DBpedia (R2-SOTAB-CPA-DBP)</h4>
-								<p>
-									<b>R2-SOTAB-CPA-DBP</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
-									Data to Knowledge Graph Matching".
-									It is based on the <a
-										href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
-										benchmark</a>.
-									The goal
-									is to annotate the relationship between the main column of a table and other columns
-									with some pre-defined terms from DBpedia.
-								</p>
-								<h5>Task Description</h5>
-								<p>
-									In this task, the goal is to annotate the relationship between the main column of a
-									table and other columns using terms from a pre-defined
-									set of DBpedia terms. The problem is formulated as a multi-class classification
-									problem where each column pair can be annotated with only
-									one label. The set of pre-defined DBpedia terms consists of 49 terms which are
-									listed in the "cpa_labels_round2_dbpedia.txt" file.
-								</p>
-								<div class="alert alert-warning" role="alert">
-									Annotate columns using terms from the "cpa_labels_round2_dbpedia.txt".
-								</div>
-								<p>
-									Each submission should be a CSV file. A line should represent one relationship
-									prediction.
-									The first column should specify the name of the table, the second column should
-									specify the index of the main column,
-									the third should specify the index of the other column and the fourth column should
-									specify the predicted label. The
-									columns should be named: "table_name", "main_column_index", "column_index", "label".
-								</p>
-								<p>
-								<h6>Explanations:</h6>
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round1-SOTAB-CPA-SCH-Tables.zip"
+									target="_blank">(1) R1-SOTAB-CPA-SCH Tables at SemTab 2023 Round 1</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round1-SOTAB-CPA-Datasets.zip"
+									target="_blank">(2) Training annotations, validation annotations, test
+									targets, evaluation script and label space for R1-SOTAB-CPA-SCH.</a>
+							</dd>
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								The datasets zip file includes:
 								<ul>
-									<li>"table_name" column should include the full name of the table including the
-										extension. (example: Product_corememoriesco.com_September2020_CPA.json.gz)</li>
-									<li>"main_column_index" refers to the position of the main column in the table. Main
-										column indices in the WDC-SOTAB benchmark are always at the 0 index.</li>
-									<li>"column_index" refers to the position of the column in the table.
-										Non-main-column indices in a table start from 1.</li>
-									<li>"label" refers to the predicted label. One column pair should have only one
-										predicted label.</li>
+									<li>The training set is found in the file "sotab_cpa_train_round1.csv" and
+										provides the table names, main column indices, column indices, and
+										ground truth labels for each column pair. </li>
+									<li>The validation set is found in the file
+										"sotab_cpa_validation_round1.csv" and has the same structure as the
+										training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+										predictions on the validation set. You can run the evaluation by
+										running:
+										<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+									</li>
+									<li>The test targets can be found in the file
+										"sotab_cpa_test_targets_round1.csv". The first column indicates the
+										table name, the second column indicates the index of the main column in
+										the table, the third column indicates the target column index and the
+										relationship between these two columns needs to be predicted.
+										Submissions need to have one prediction for each target column.</li>
+									<li>All tables can be found in the links provided. One table is stored in
+										one JSON file. Each line corresponds to a table row. The tables do not
+										have any column headers. You can open a table using the following code:
+										<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+									</li>
+									<li>The label set to use for prediction is stored in the
+										"cpa_labels_round1.txt" file.</li>
 								</ul>
-								</p>
+							</dd>
+
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+						</p>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/38khZVhmJNAeQA6i8">Submission URL</a>
+						</div>
+					</div>
+				</div>
+
+				<!--Round 2------------------------------------------------------------------------------>
+				<h3 class="pt-4" id="round2">Round #2</h3>
+
+				<!--Round 2 btns------------------------------------------------------------------------------>
+
+				<ul class="nav nav-tabs mb-3" id="round2-tasks-tab" role="tablist">
+					<li class="nav-item active" role="presentation">
+						<button class="nav-link active" id="round2-sotab-cta-tab" data-bs-toggle="tab"
+							data-bs-target="#round2-sotab-cta-tab-pane" type="button" role="tab"
+							aria-controls="round2-sotab-cta-tab-pane" aria-selected="true">
+							R2-SOTAB-CTA-SCH
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="round2-sotab-cpa-tab" data-bs-toggle="tab"
+							data-bs-target="#round2-sotab-cpa-tab-pane" type="button" role="tab"
+							aria-controls="round2-sotab-cpa-tab-pane" aria-selected="false">
+							R2-SOTAB-CPA-SCH
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="round2-sotab-cta-tab" data-bs-toggle="tab"
+							data-bs-target="#round2-sotab-cta-dbp-tab-pane" type="button" role="tab"
+							aria-controls="round2-sotab-cta-dbp-tab-pane" aria-selected="false">
+							R2-SOTAB-CTA-DBP
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="round2-sotab-cpa-tab" data-bs-toggle="tab"
+							data-bs-target="#round2-sotab-cpa-dbp-tab-pane" type="button" role="tab"
+							aria-controls="round2-sotab-cpa-dbp-tab-pane" aria-selected="false">
+							R2-SOTAB-CPA-DBP
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="round2-cqa-tab" data-bs-toggle="tab"
+							data-bs-target="#round2-cqa-tab-pane" type="button" role="tab"
+							aria-controls="round2-cqa-tab-pane" aria-selected="false">
+							R2-CQA
+						</button>
+					</li>
+				</ul>
+
+				<div class="alert alert-primary d-flex align-items-center" role="alert">
+					<i class="bi bi-calendar-event" style="padding-right: 6px;"></i>
+					May 15 - June 22
+				</div>
+
+				<!--Round 2 Content------------------------------------------------------------------------------>
+				<div class="tab-content" id="round2-tasks-tab-content">
+					<!--Task Block SOTAB CTA-->
+					<div class="tab-pane fade show active" id="round2-sotab-cta-tab-pane" role="tabpanel"
+						aria-labelledby="round2-sotab-cta-tab" tabindex="0">
+						<h4>Column Type Annotation using Schema.org terms (R2-SOTAB-CTA-SCH)</h4>
+						<p>
+							<b>R2-SOTAB-CTA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+							Data to Knowledge Graph Matching".
+							It is based on the <a href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+								benchmark</a>.
+							The goal is to annotate
+							table columns with pre-defined terms from the Schema.org vocabulary.
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							In this task, the goal is to annotate the semantic types of table columns using
+							terms from a pre-defined set of Schema.org terms.
+							The problem is formulated as a multi-class classification problem where each column
+							can be annotated with only one type. The set of pre-defined
+							Schema.org terms consists of 80 terms which are listed in the
+							"cta_labels_round2.txt" file. Examples include telephone, Duration or Place/name.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Annotate columns using terms from the "cta_labels_round2.txt".
+						</div>
+						<p>
+							Each submission should be a CSV file. A line should represent one column prediction.
+							The first column should specify the name of the table, the second column should
+							specify the index of the column in the table
+							and the third column should specify the predicted label. The columns should be
+							named: "table_name", "column_index", "label".
+						</p>
+						<p>
+						<h6>Explanations:</h6>
+						<ul>
+							<li>"table_name" column should include the full name of the table including the
+								extension. (example: Product_corememoriesco.com_September2020_CTA.json.gz)</li>
+							<li>"column_index" refers to the position of the column in the table. Column indices
+								in a table start from 0.</li>
+							<li>"label" refers to the predicted label. One column should have only one predicted
+								label.</li>
+						</ul>
+						</p>
 
 
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Links</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-Tables.zip"
-											target="_blank">(1) R2-SOTAB-CPA Tables at SemTab 2023 Round 2</a>
-									</dd>
-									<dt class="col-sm-3">Description</dt>
-									<dd class="col-sm-9"><a
-											href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-DBP-Datasets.zip"
-											target="_blank">(2) Training annotations, validation annotations, test
-											targets, evaluation script and label space for R2-SOTAB-CPA-DBP.</a>
-									</dd>
-									<dt class="col-sm-3"></dt>
-									<dd class="col-sm-9">
-										The datasets zip file includes:
-										<ul>
-											<li>The training set is found in the file "sotab_cpa_train_round2_dbpedia.csv" and
-												provides the table names, main column indices, column indices, and
-												ground truth labels for each column pair. </li>
-											<li>The validation set is found in the file
-												"sotab_cpa_validation_round2_dbpedia.csv" and has the same structure as the
-												training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
-												predictions on the validation set. You can run the evaluation by
-												running:
-												<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
-											</li>
-											<li>The test targets can be found in the file
-												"sotab_cpa_test_targets_round2_dbpedia.csv". The first column indicates the
-												table name, the second column indicates the index of the main column in
-												the table, the third column indicates the target column index and the
-												relationship between these two columns needs to be predicted.
-												Submissions need to have one prediction for each target column.</li>
-											<li>All tables can be found in the links provided. One table is stored in
-												one JSON file. Each line corresponds to a table row. The tables do not
-												have any column headers. You can open a table using the following code:
-												<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
-											</li>
-											<li>The label set to use for prediction is stored in the
-												"cpa_labels_round2_dbpedia.txt" file.</li>
-										</ul>
-									</dd>
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-Tables.zip"
+									target="_blank">(1) R2-SOTAB-CTA Tables at SemTab 2023 Round 2</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-SCH-Datasets.zip"
+									target="_blank">(2) Training annotations, validation annotations, test
+									targets, evaluation script and label space for R2-SOTAB-CTA-SCH.</a>
+							</dd>
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								The datasets zip file includes:
+								<ul>
+									<li>The training set is found in the file "sotab_cta_train_round2.csv" and
+										provides the table names, column indices, and ground truth labels for
+										each column. </li>
+									<li>The validation set is found in the file
+										"sotab_cta_validation_round2.csv" and has the same structure as the
+										training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+										predictions on the validation set. You can run the evaluation by
+										running:
+										<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+									</li>
+									<li>The test targets can be found in the file
+										"sotab_cta_test_targets_round2.csv". The first column indicates the
+										table name and the second the target column index which needs to be
+										predicted. Submissions need to have one prediction for each target
+										column.</li>
+									<li>All tables can be found in the links provided. One table is stored in
+										one JSON file. Each line corresponds to a table row. The tables do not
+										have any column headers. You can open a table using the following code:
+										<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+									</li>
+									<li>The label set to use for prediction is stored in the
+										"cta_labels_round2.txt" file.</li>
+								</ul>
+							</dd>
 
-								</dl>
+						</dl>
 
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
-								</p>
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+						</p>
 
-								<h5>Submission</h5>
+						<h5>Submission</h5>
 
-								Participants can test and develop their systems on the given ground truth (validation
-								set).
-								Please name your submission files as YOURTEAM_DATASET_TASK.csv.
-								<div class="alert alert-warning" role="alert"> 
-									<a href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>.
-								</div>
-							</div>
-                            <!--Task Block End-->
-                            <!--Task Block SOTAB CTA-->
-							<div class="tab-pane fade show active" id="round2-cqa-pane" role="tabpanel"
-								aria-labelledby="round2-cqa-tab" tabindex="0">
-								<h4>Column-Qualifier Annotation (R2-QA)</h4>
-								<p>
-									<b>R2-CQA</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
-									Data to Knowledge Graph Matching".
-									The goal of this task is to predict both main properties and qualifiers from Wikidata for n-ary relations that are expressed by three table columns. This dataset is further explaned here: <a href="https://github.com/bennokr/semtab2023-CQA/">https://github.com/bennokr/semtab2023-CQA/</a> .
-								</p>
-                                <h5>Task description</h5>
-<p dir="auto">The goal of this task is to predict both main properties and qualifiers from Wikidata for n-ary relations that are expressed by three table columns. For example, given the following table about Oscar nominations:</p>
-<p>
-    <style>
-        #r2-cqa-example * {
-            padding:.5em; border:1px solid black;  border-collapse: collapse;
-        }
-    </style>
-    <table id="r2-cqa-example">
-<thead>
-<tr>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Academy Award for Best Actor</td>
-<td>2000(73rd)</td>
-<td>Russell Crowe</td>
-<td>Gladiator</td>
-<td>Maximus Decimus Meridius</td>
-</tr>
-<tr>
-<td>Academy Award for Best Actor</td>
-<td>2000(73rd)</td>
-<td>Javier Bardem</td>
-<td>Before Night Falls</td>
-<td>Reinaldo Arenas</td>
-</tr>
-<tr>
-<td>Academy Award for Best Actor</td>
-<td>2000(73rd)</td>
-<td>Ed Harris</td>
-<td>Pollock</td>
-<td>Jackson Pollock</td>
-</tr>
-</tbody>
-                                </table></p>
-<p dir="auto">the main property "nominated for" (<a href="https://www.wikidata.org/wiki/Property:P1411" rel="nofollow">P1411</a>) holds between columns <strong>2</strong> and <strong>0</strong> (the <em>subject</em> and <em>object column</em>), which is expanded upon with the qualifier "for work" (<a href="https://www.wikidata.org/wiki/Property:P1686" rel="nofollow">1686</a>) in column <strong>3</strong> (the <em>qualifier column</em>). This property-qualifier pair describes the n-ary relation that holds between these three columns.</p>
-<p dir="auto">In this repository you will find an example evaluation dataset (<code>simple</code>) with a baseline, and a full dataset for the SemTab2023 challenge (<a href="https://github.com/bennokr/semtab2023-CQA/raw/main/full-semtab2023-CQA.zip">full-semtab2023-CQA.zip</a>) which includes training data. In both datasets, the file <code>task.csv</code> specifies which columns in each table should be annotated with properties and qualifiers. Submissions must fill in the empty cells, and will be evaluated on their accuracy of predicting the correct property-qualifier pair (see <a href="https://github.com/bennokr/semtab2023-CQA/blob/main/evaluate.py">evaluate.py</a>).</p>
-								<div class="alert alert-warning" role="alert">
-									Annotate columns using identifiers from <code>wikidata_main_property_labels.csv</code> and <code>wikidata_qualifier_labels.csv</code>.
-								</div>
-								<p>
-                                    Each submission should be a CSV file formatted in the same way as the <code>solution.csv</code> file of the <code>simple</code> dataset.
-								</p>
-								<!--<p>
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>
+						</div>
+					</div>
+					<!--Task Block End-->
+
+					<!--Task Block SOTAB CPA-->
+					<div class="tab-pane fade" id="round2-sotab-cpa-tab-pane" role="tabpanel"
+						aria-labelledby="round2-sotab-cpa-tab" tabindex="0">
+						<h4>Columns Property Annotation using Schema.org terms (R2-SOTAB-CPA-SCH)</h4>
+						<p>
+							<b>R2-SOTAB-CPA-SCH</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+							Data to Knowledge Graph Matching".
+							It is based on the <a href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+								benchmark</a>.
+							The goal
+							is to annotate the relationship between the main column of a table and other columns
+							with some pre-defined terms from the Schema.org vocabulary.
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							In this task, the goal is to annotate the relationship between the main column of a
+							table and other columns using terms from a pre-defined
+							set of Schema.org terms. The problem is formulated as a multi-class classification
+							problem where each column pair can be annotated with only
+							one label. The set of pre-defined Schema.org terms consists of 105 terms which are
+							listed in the "cpa_labels_round2.txt" file. Examples include
+							telephone, isbn or description.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Annotate columns using terms from the "cpa_labels_round2.txt".
+						</div>
+						<p>
+							Each submission should be a CSV file. A line should represent one relationship
+							prediction.
+							The first column should specify the name of the table, the second column should
+							specify the index of the main column,
+							the third should specify the index of the other column and the fourth column should
+							specify the predicted label. The
+							columns should be named: "table_name", "main_column_index", "column_index", "label".
+						</p>
+						<p>
+						<h6>Explanations:</h6>
+						<ul>
+							<li>"table_name" column should include the full name of the table including the
+								extension. (example: Product_corememoriesco.com_September2020_CPA.json.gz)</li>
+							<li>"main_column_index" refers to the position of the main column in the table. Main
+								column indices in the WDC-SOTAB benchmark are always at the 0 index.</li>
+							<li>"column_index" refers to the position of the column in the table.
+								Non-main-column indices in a table start from 1.</li>
+							<li>"label" refers to the predicted label. One column pair should have only one
+								predicted label.</li>
+						</ul>
+						</p>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-Tables.zip"
+									target="_blank">(1) R2-SOTAB-CPA Tables at SemTab 2023 Round 2</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-SCH-Datasets.zip"
+									target="_blank">(2) Training annotations, validation annotations, test
+									targets, evaluation script and label space for R2-SOTAB-CPA-SCH.</a>
+							</dd>
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								The datasets zip file includes:
+								<ul>
+									<li>The training set is found in the file "sotab_cpa_train_round2.csv" and
+										provides the table names, main column indices, column indices, and
+										ground truth labels for each column pair. </li>
+									<li>The validation set is found in the file
+										"sotab_cpa_validation_round2.csv" and has the same structure as the
+										training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+										predictions on the validation set. You can run the evaluation by
+										running:
+										<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+									</li>
+									<li>The test targets can be found in the file
+										"sotab_cpa_test_targets_round2.csv". The first column indicates the
+										table name, the second column indicates the index of the main column in
+										the table, the third column indicates the target column index and the
+										relationship between these two columns needs to be predicted.
+										Submissions need to have one prediction for each target column.</li>
+									<li>All tables can be found in the links provided. One table is stored in
+										one JSON file. Each line corresponds to a table row. The tables do not
+										have any column headers. You can open a table using the following code:
+										<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+									</li>
+									<li>The label set to use for prediction is stored in the
+										"cpa_labels_round2.txt" file.</li>
+								</ul>
+							</dd>
+
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+						</p>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>
+						</div>
+					</div>
+
+
+					<!--Task Block SOTAB CTA DBP-->
+					<div class="tab-pane fade" id="round2-sotab-cta-dbp-tab-pane" role="tabpanel"
+						aria-labelledby="round2-sotab-cta-dbp-tab" tabindex="0">
+						<h4>Column Type Annotation using DBpedia (R2-SOTAB-CTA-DBP)</h4>
+						<p>
+							<b>R2-SOTAB-CTA-DBP</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+							Data to Knowledge Graph Matching".
+							It is based on the <a href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+								benchmark</a>.
+							The goal is to annotate
+							table columns with pre-defined terms from DBpedia.
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							In this task, the goal is to annotate the semantic types of table columns using
+							terms from a pre-defined set of DBpedia terms.
+							The problem is formulated as a multi-class classification problem where each column
+							can be annotated with only one type. The set of pre-defined
+							Schema.org terms consists of 46 terms which are listed in the
+							"cta_labels_round2_dbpedia.txt" file.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Annotate columns using terms from the "cta_labels_round2_dbpedia.txt".
+						</div>
+						<p>
+							Each submission should be a CSV file. A line should represent one column prediction.
+							The first column should specify the name of the table, the second column should
+							specify the index of the column in the table
+							and the third column should specify the predicted label. The columns should be
+							named: "table_name", "column_index", "label".
+						</p>
+						<p>
+						<h6>Explanations:</h6>
+						<ul>
+							<li>"table_name" column should include the full name of the table including the
+								extension. (example: Product_corememoriesco.com_September2020_CTA.json.gz)</li>
+							<li>"column_index" refers to the position of the column in the table. Column indices
+								in a table start from 0.</li>
+							<li>"label" refers to the predicted label. One column should have only one predicted
+								label.</li>
+						</ul>
+						</p>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-Tables.zip"
+									target="_blank">(1) R2-SOTAB-CTA Tables at SemTab 2023 Round 2</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CTA-DBP-Datasets.zip"
+									target="_blank">(2) Training annotations, validation annotations, test
+									targets, evaluation script and label space for R2-SOTAB-CTA-DBP.</a>
+							</dd>
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								The datasets zip file includes:
+								<ul>
+									<li>The training set is found in the file "sotab_cta_train_round2_dbpedia.csv" and
+										provides the table names, column indices, and ground truth labels for
+										each column. </li>
+									<li>The validation set is found in the file
+										"sotab_cta_validation_round2_dbpedia.csv" and has the same structure as the
+										training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+										predictions on the validation set. You can run the evaluation by
+										running:
+										<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+									</li>
+									<li>The test targets can be found in the file
+										"sotab_cta_test_targets_round2_dbpedia.csv". The first column indicates the
+										table name and the second the target column index which needs to be
+										predicted. Submissions need to have one prediction for each target
+										column.</li>
+									<li>All tables can be found in the links provided. One table is stored in
+										one JSON file. Each line corresponds to a table row. The tables do not
+										have any column headers. You can open a table using the following code:
+										<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+									</li>
+									<li>The label set to use for prediction is stored in the
+										"cta_labels_round2_dbpedia.txt" file.</li>
+								</ul>
+							</dd>
+
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+						</p>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>
+						</div>
+					</div>
+					<!--Task Block End-->
+
+					<!--Task Block SOTAB CPA DBP-->
+					<div class="tab-pane fade" id="round2-sotab-cpa-dbp-tab-pane" role="tabpanel"
+						aria-labelledby="round2-sotab-cpa-dbp-tab" tabindex="0">
+						<h4>Columns Property Annotation using DBpedia (R2-SOTAB-CPA-DBP)</h4>
+						<p>
+							<b>R2-SOTAB-CPA-DBP</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+							Data to Knowledge Graph Matching".
+							It is based on the <a href="http://webdatacommons.org/structureddata/sotab/">WDC-SOTAB
+								benchmark</a>.
+							The goal
+							is to annotate the relationship between the main column of a table and other columns
+							with some pre-defined terms from DBpedia.
+						</p>
+						<h5>Task Description</h5>
+						<p>
+							In this task, the goal is to annotate the relationship between the main column of a
+							table and other columns using terms from a pre-defined
+							set of DBpedia terms. The problem is formulated as a multi-class classification
+							problem where each column pair can be annotated with only
+							one label. The set of pre-defined DBpedia terms consists of 49 terms which are
+							listed in the "cpa_labels_round2_dbpedia.txt" file.
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Annotate columns using terms from the "cpa_labels_round2_dbpedia.txt".
+						</div>
+						<p>
+							Each submission should be a CSV file. A line should represent one relationship
+							prediction.
+							The first column should specify the name of the table, the second column should
+							specify the index of the main column,
+							the third should specify the index of the other column and the fourth column should
+							specify the predicted label. The
+							columns should be named: "table_name", "main_column_index", "column_index", "label".
+						</p>
+						<p>
+						<h6>Explanations:</h6>
+						<ul>
+							<li>"table_name" column should include the full name of the table including the
+								extension. (example: Product_corememoriesco.com_September2020_CPA.json.gz)</li>
+							<li>"main_column_index" refers to the position of the main column in the table. Main
+								column indices in the WDC-SOTAB benchmark are always at the 0 index.</li>
+							<li>"column_index" refers to the position of the column in the table.
+								Non-main-column indices in a table start from 1.</li>
+							<li>"label" refers to the predicted label. One column pair should have only one
+								predicted label.</li>
+						</ul>
+						</p>
+
+
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Links</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-Tables.zip"
+									target="_blank">(1) R2-SOTAB-CPA Tables at SemTab 2023 Round 2</a>
+							</dd>
+							<dt class="col-sm-3">Description</dt>
+							<dd class="col-sm-9"><a
+									href="https://data.dws.informatik.uni-mannheim.de/structureddata/sotab/Round2-SOTAB-CPA-DBP-Datasets.zip"
+									target="_blank">(2) Training annotations, validation annotations, test
+									targets, evaluation script and label space for R2-SOTAB-CPA-DBP.</a>
+							</dd>
+							<dt class="col-sm-3"></dt>
+							<dd class="col-sm-9">
+								The datasets zip file includes:
+								<ul>
+									<li>The training set is found in the file "sotab_cpa_train_round2_dbpedia.csv" and
+										provides the table names, main column indices, column indices, and
+										ground truth labels for each column pair. </li>
+									<li>The validation set is found in the file
+										"sotab_cpa_validation_round2_dbpedia.csv" and has the same structure as the
+										training set. You can use the code "SOTAB_Evaluator.py" to evaluate the
+										predictions on the validation set. You can run the evaluation by
+										running:
+										<code>python SOTAB_Evaluator.py /path/to/submission/file /path/to/ground/truth/file</code>
+									</li>
+									<li>The test targets can be found in the file
+										"sotab_cpa_test_targets_round2_dbpedia.csv". The first column indicates the
+										table name, the second column indicates the index of the main column in
+										the table, the third column indicates the target column index and the
+										relationship between these two columns needs to be predicted.
+										Submissions need to have one prediction for each target column.</li>
+									<li>All tables can be found in the links provided. One table is stored in
+										one JSON file. Each line corresponds to a table row. The tables do not
+										have any column headers. You can open a table using the following code:
+										<code>table_df = pd.read_json(path, compression='gzip', lines=True)</code>
+									</li>
+									<li>The label set to use for prediction is stored in the
+										"cpa_labels_round2_dbpedia.txt" file.</li>
+								</ul>
+							</dd>
+
+						</dl>
+
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Calculating Precision, Recall, Macro-F1 Score and Micro-F1 Score.
+						</p>
+
+						<h5>Submission</h5>
+
+						Participants can test and develop their systems on the given ground truth (validation
+						set).
+						Please name your submission files as YOURTEAM_DATASET_TASK.csv.
+						<div class="alert alert-warning" role="alert">
+							<a href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>.
+						</div>
+					</div>
+					<!--Task Block End-->
+					<!--Task Block SOTAB CTA-->
+					<div class="tab-pane fade show active" id="round2-cqa-pane" role="tabpanel"
+						aria-labelledby="round2-cqa-tab" tabindex="0">
+						<h4>Column-Qualifier Annotation (R2-QA)</h4>
+						<p>
+							<b>R2-CQA</b> is a task of ISWC 2023 "Semantic Web Challenge on Tabular
+							Data to Knowledge Graph Matching".
+							The goal of this task is to predict both main properties and qualifiers from Wikidata for
+							n-ary relations that are expressed by three table columns. This dataset is further explaned
+							here: <a
+								href="https://github.com/bennokr/semtab2023-CQA/">https://github.com/bennokr/semtab2023-CQA/</a>
+							.
+						</p>
+						<h5>Task description</h5>
+						<p dir="auto">The goal of this task is to predict both main properties and qualifiers from
+							Wikidata for n-ary relations that are expressed by three table columns. For example, given
+							the following table about Oscar nominations:</p>
+						<p>
+							<style>
+								#r2-cqa-example * {
+									padding: .5em;
+									border: 1px solid black;
+									border-collapse: collapse;
+								}
+							</style>
+						<table id="r2-cqa-example">
+							<thead>
+								<tr>
+									<th>0</th>
+									<th>1</th>
+									<th>2</th>
+									<th>3</th>
+									<th>4</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Academy Award for Best Actor</td>
+									<td>2000(73rd)</td>
+									<td>Russell Crowe</td>
+									<td>Gladiator</td>
+									<td>Maximus Decimus Meridius</td>
+								</tr>
+								<tr>
+									<td>Academy Award for Best Actor</td>
+									<td>2000(73rd)</td>
+									<td>Javier Bardem</td>
+									<td>Before Night Falls</td>
+									<td>Reinaldo Arenas</td>
+								</tr>
+								<tr>
+									<td>Academy Award for Best Actor</td>
+									<td>2000(73rd)</td>
+									<td>Ed Harris</td>
+									<td>Pollock</td>
+									<td>Jackson Pollock</td>
+								</tr>
+							</tbody>
+						</table>
+						</p>
+						<p dir="auto">the main property "nominated for" (<a
+								href="https://www.wikidata.org/wiki/Property:P1411" rel="nofollow">P1411</a>) holds
+							between columns <strong>2</strong> and <strong>0</strong> (the <em>subject</em> and
+							<em>object column</em>), which is expanded upon with the qualifier "for work" (<a
+								href="https://www.wikidata.org/wiki/Property:P1686" rel="nofollow">1686</a>) in column
+							<strong>3</strong> (the <em>qualifier column</em>). This property-qualifier pair describes
+							the n-ary relation that holds between these three columns.
+						</p>
+						<p dir="auto">In this repository you will find an example evaluation dataset
+							(<code>simple</code>) with a baseline, and a full dataset for the SemTab2023 challenge (<a
+								href="https://github.com/bennokr/semtab2023-CQA/raw/main/full-semtab2023-CQA.zip">full-semtab2023-CQA.zip</a>)
+							which includes training data. In both datasets, the file <code>task.csv</code> specifies
+							which columns in each table should be annotated with properties and qualifiers. Submissions
+							must fill in the empty cells, and will be evaluated on their accuracy of predicting the
+							correct property-qualifier pair (see <a
+								href="https://github.com/bennokr/semtab2023-CQA/blob/main/evaluate.py">evaluate.py</a>).
+						</p>
+						<div class="alert alert-warning" role="alert">
+							Annotate columns using identifiers from <code>wikidata_main_property_labels.csv</code> and
+							<code>wikidata_qualifier_labels.csv</code>.
+						</div>
+						<p>
+							Each submission should be a CSV file formatted in the same way as the
+							<code>solution.csv</code> file of the <code>simple</code> dataset.
+						</p>
+						<!--<p>
 								<h6>Explanations:</h6>
 								<ul>
 									<li></li>
@@ -2197,17 +2235,21 @@
 								</p>-->
 
 
-								<h5>Dataset</h5>
-								<dl class="row">
-									<dt class="col-sm-3">Dataset repository</dt>
-									<dd class="col-sm-9"><a href="https://github.com/bennokr/semtab2023-CQA/">https://github.com/bennokr/semtab2023-CQA/</a> (includes <a href="https://github.com/bennokr/semtab2023-CQA/blob/main/baseline.ipynb">baseline code notebook</a>)
-									</dd>
-                                    <dt class="col-sm-3">Link</dt>
-                                    <dd class="col-sm-9"><a
-											href="https://github.com/bennokr/semtab2023-CQA/raw/main/full-semtab2023-CQA.zip"
-											target="_blank">Full dataset for R2-CQA</a> (includes training data).
-									</dd>
-									<!--<dt class="col-sm-3">Description</dt>
+						<h5>Dataset</h5>
+						<dl class="row">
+							<dt class="col-sm-3">Dataset repository</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/bennokr/semtab2023-CQA/">https://github.com/bennokr/semtab2023-CQA/</a>
+								(includes <a
+									href="https://github.com/bennokr/semtab2023-CQA/blob/main/baseline.ipynb">baseline
+									code notebook</a>)
+							</dd>
+							<dt class="col-sm-3">Link</dt>
+							<dd class="col-sm-9"><a
+									href="https://github.com/bennokr/semtab2023-CQA/raw/main/full-semtab2023-CQA.zip"
+									target="_blank">Full dataset for R2-CQA</a> (includes training data).
+							</dd>
+							<!--<dt class="col-sm-3">Description</dt>
 									<dd class="col-sm-9">
 										The datasets zip file includes:
 										<ul>
@@ -2215,157 +2257,164 @@
 										</ul>
 									</dd>-->
 
-								</dl>
+						</dl>
 
-								<h5>Evaluation Criteria</h5>
-								<p>
-									Submissions will be evaluated on their accuracy of predicting the correct property-qualifier pair (see <a href="https://github.com/bennokr/semtab2023-CQA/blob/main/evaluate.py">evaluate.py</a>).
-								</p>
+						<h5>Evaluation Criteria</h5>
+						<p>
+							Submissions will be evaluated on their accuracy of predicting the correct property-qualifier
+							pair (see <a
+								href="https://github.com/bennokr/semtab2023-CQA/blob/main/evaluate.py">evaluate.py</a>).
+						</p>
 
-								<h5>Submission</h5>
+						<h5>Submission</h5>
 
-								Please name your submission files as YOURTEAM_CQA.csv.
-								<div class="alert alert-warning" role="alert"> <a href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>
-								</div>
-							</div>
-							<!--Task Block End-->
-
+						Please name your submission files as YOURTEAM_CQA.csv.
+						<div class="alert alert-warning" role="alert"> <a
+								href="https://forms.gle/Jd2RShsaCs2scFnP9">Submission URL</a>
 						</div>
+					</div>
+					<!--Task Block End-->
 
-						<h2 class="title display-6 pt-5" id="results">
-            						<i class="bi bi-trophy"></i>
-            						Testing Results
-						</h2>
-						<div class="alert alert-primary d-flex align-items-center" role="alert">
-            						<a href="https://docs.google.com/spreadsheets/d/16D1QdPf3FI7CM5SWiU_sfltJnYyssMFUnQ_vvCudZWc/edit?usp=sharing">Rounds#1 and #2</a>
-        					</div>
+				</div>
+
+				<h2 class="title display-6 pt-5" id="results">
+					<i class="bi bi-trophy"></i>
+					Testing Results
+				</h2>
+				<div class="alert alert-primary d-flex align-items-center" role="alert">
+					<a
+						href="https://docs.google.com/spreadsheets/d/16D1QdPf3FI7CM5SWiU_sfltJnYyssMFUnQ_vvCudZWc/edit?usp=sharing">Rounds
+						#1
+						and #2 Results Sheet</a>
+				</div>
+				<div>
+					<h6>Round 1 Results Summary</h6>
+					<img src="figures/round1.png" class="img-fluid float-lg-end" />
+				</div>
+				</br>
+				<div>
+					<h6>Round 2 Results Summary</h6>
+					<img src="figures/round2.png" class="img-fluid float-lg-end" />
+				</div>
 
 
-						<h2 class="title display-6 pt-5" id="paper">
-							<i class="bi bi-journal-check"></i>
-							Paper Guidelines
-						</h2>
+				<h2 class="title display-6 pt-5" id="paper">
+					<i class="bi bi-journal-check"></i>
+					Paper Guidelines
+				</h2>
 
-						<p>
-							We invite participants in the Accuracy Track as well as the Datasets Track to submit a
-							paper, using <a href="https://easychair.org/my/conference?conf=semtab2023">easychair</a>.
-							<br />
-							System papers in the Accuracy Track should be no more than 12 pages
-							long (excluding references) and papers for the Datasets Track are
-							limited to 6 pages.
-							<br />
-							If you are submitting to the Datasets Track, please append "[Datasets Track]" at the end
-							of the
-							paper title.
-							<br />
-							Both type of papers should be formatted using the
-							<a href="https://www.overleaf.com/latex/templates/template-for-submissions-to-ceur-workshop-proceedings-ceur-ws-dot-org/wqyfdgftmcfw"
-								target="_blank">CEUR Latex template</a>
-							or the
-							<a href="https://ceurws.wordpress.com/2020/03/31/ceurws-publishes-ceurart-paper-style/"
-								target="_blank">CEUR Word template</a>. Papers will be reviewed by 1-2 challenge
-							organisers.
-						</p>
+				<p>
+					We invite participants in the Accuracy Track as well as the Datasets Track to submit a
+					paper, using <a href="https://easychair.org/my/conference?conf=semtab2023">easychair</a>.
+					<br />
+					System papers in the Accuracy Track should be no more than 12 pages
+					long (excluding references) and papers for the Datasets Track are
+					limited to 6 pages.
+					<br />
+					If you are submitting to the Datasets Track, please append "[Datasets Track]" at the end
+					of the
+					paper title.
+					<br />
+					Both type of papers should be formatted using the
+					<a href="https://www.overleaf.com/latex/templates/template-for-submissions-to-ceur-workshop-proceedings-ceur-ws-dot-org/wqyfdgftmcfw"
+						target="_blank">CEUR Latex template</a>
+					or the
+					<a href="https://ceurws.wordpress.com/2020/03/31/ceurws-publishes-ceurart-paper-style/"
+						target="_blank">CEUR Word template</a>. Papers will be reviewed by 1-2 challenge
+					organisers.
+				</p>
 
-						<p>
-							Accepted papers will be published as a volume of
-							<a href="http://ceur-ws.org/" target="_blank">CEUR-WS</a>. By
-							submitting a paper, the authors accept the CEUR-WS publishing rules.
-						</p>
+				<p>
+					Accepted papers will be published as a volume of
+					<a href="http://ceur-ws.org/" target="_blank">CEUR-WS</a>. By
+					submitting a paper, the authors accept the CEUR-WS publishing rules.
+				</p>
 
-						<h2 id="organisation" class="title display-6 pt-5">
-							<i class="bi bi-people"></i>
-							Organisation
-						</h2>
+				<h2 id="organisation" class="title display-6 pt-5">
+					<i class="bi bi-people"></i>
+					Organisation
+				</h2>
 
-						<p>
-							This challenge is organised by
-							<a href="https://researcher.watson.ibm.com/researcher/view.php?person=ibm-Kavitha.Srinivas"
-								target="_blank">Kavitha Srinivas</a>
-							(IBM Research),
-							<a href="https://www.city.ac.uk/people/academics/ernesto-jimenez-ruiz"
-								target="_blank">Ernesto
-								Jim&eacute;nez-Ruiz</a>
-							(City, University of London; University of Oslo),
-							<a href="https://researcher.watson.ibm.com/researcher/view.php?person=us-hassanzadeh"
-								target="_blank">Oktie Hassanzadeh</a>
-							(IBM Research),
-							<a href="https://www.cs.ox.ac.uk/people/jiaoyan.chen/" target="_blank">Jiaoyan Chen</a>
-							(University of Oxford),
-							<a href="https://sites.google.com/site/vefthym/" target="_blank">Vasilis Efthymiou</a>
-							(FORTH - ICS),
-							<a href="https://vcutrona.github.io/" target="_blank">Vincenzo Cutrona</a>
-							(SUPSI),
-							<a href="https://juansequeda.com/" target="_blank">Juan Sequeda</a>
-							(data.world),
-							<a href="https://fusion.cs.uni-jena.de/fusion/members/nora-abdelmageed/"
-								target="_blank">Nora
-								Abdelmageed</a>
-							(University of Jena), and
-							<a href="https://madelonhulsebos.github.io/" target="_blank">Madelon Hulsebos</a>
-							(Sigma Computing, University of Amsterdam). If you have any problems
-							working with the datasets or any suggestions related to this
-							challenge, do not hesitate to contact us via the
-							<a href="https://groups.google.com/g/sem-tab-challenge">discussion group</a>.
-						</p>
+				<p>
+					This challenge is organised by
+					<a href="https://researcher.watson.ibm.com/researcher/view.php?person=ibm-Kavitha.Srinivas"
+						target="_blank">Kavitha Srinivas</a>
+					(IBM Research),
+					<a href="https://www.city.ac.uk/people/academics/ernesto-jimenez-ruiz" target="_blank">Ernesto
+						Jim&eacute;nez-Ruiz</a>
+					(City, University of London; University of Oslo),
+					<a href="https://researcher.watson.ibm.com/researcher/view.php?person=us-hassanzadeh"
+						target="_blank">Oktie Hassanzadeh</a>
+					(IBM Research),
+					<a href="https://www.cs.ox.ac.uk/people/jiaoyan.chen/" target="_blank">Jiaoyan Chen</a>
+					(University of Oxford),
+					<a href="https://sites.google.com/site/vefthym/" target="_blank">Vasilis Efthymiou</a>
+					(FORTH - ICS),
+					<a href="https://vcutrona.github.io/" target="_blank">Vincenzo Cutrona</a>
+					(SUPSI),
+					<a href="https://juansequeda.com/" target="_blank">Juan Sequeda</a>
+					(data.world),
+					<a href="https://fusion.cs.uni-jena.de/fusion/members/nora-abdelmageed/" target="_blank">Nora
+						Abdelmageed</a>
+					(University of Jena), and
+					<a href="https://madelonhulsebos.github.io/" target="_blank">Madelon Hulsebos</a>
+					(Sigma Computing, University of Amsterdam). If you have any problems
+					working with the datasets or any suggestions related to this
+					challenge, do not hesitate to contact us via the
+					<a href="https://groups.google.com/g/sem-tab-challenge">discussion group</a>.
+				</p>
 
-						<h2 id="acknowledgements" class="title display-6 pt-5">
-							<i class="bi bi-bookmark-star"></i>
-							Acknowledgements
-						</h2>
+				<h2 id="acknowledgements" class="title display-6 pt-5">
+					<i class="bi bi-bookmark-star"></i>
+					Acknowledgements
+				</h2>
 
-						<p>
-							The challenge is currently supported by the
-							<a href="http://sirius-labs.no/" target="_blank">SIRIUS Centre for Research-driven
-								Innovation</a>
-							and
-							<a href="http://www.research.ibm.com/" target="_blank">IBM Research</a>.
-						</p>
+				<p>
+					The challenge is currently supported by the
+					<a href="http://sirius-labs.no/" target="_blank">SIRIUS Centre for Research-driven
+						Innovation</a>
+					and
+					<a href="http://www.research.ibm.com/" target="_blank">IBM Research</a>.
+				</p>
 
-						
 
-						<!--Logos-->
-						<div class="col-md-2 col-3 vstack gap-3">
-							<a href="http://sirius-labs.no/" target="_blank">
-								<img src="logos/sirius-logo.png" class="img-fluid float-lg-end" alt="sirius"
-									width="250" /></a>
 
-							<a href="http://www.cs.ox.ac.uk/" target="_blank">
-								<img src="logos/cs-oxford.jpg" class="img-fluid float-lg-end" alt="cs-oxford"
-									width="250" /></a>
+				<!--Logos-->
+				<div class="col-md-2 col-3 vstack gap-3">
+					<a href="http://sirius-labs.no/" target="_blank">
+						<img src="logos/sirius-logo.png" class="img-fluid float-lg-end" alt="sirius" width="250" /></a>
 
-							<a href="https://www.city.ac.uk/about/schools/mathematics-computer-science-engineering/computer-science"
-								target="_blank">
-								<img src="logos/city-logo.jpg" class="img-fluid float-lg-end" alt="city-logo"
-									width="250" /></a>
+					<a href="http://www.cs.ox.ac.uk/" target="_blank">
+						<img src="logos/cs-oxford.jpg" class="img-fluid float-lg-end" alt="cs-oxford" width="250" /></a>
 
-							<a href="https://www.ibm.com/" target="_blank">
-								<img src="logos/ibm-logo-small.svg" class="img-fluid float-lg-end" width="250" /></a>
+					<a href="https://www.city.ac.uk/about/schools/mathematics-computer-science-engineering/computer-science"
+						target="_blank">
+						<img src="logos/city-logo.jpg" class="img-fluid float-lg-end" alt="city-logo" width="250" /></a>
 
-							<a href="https://www.ics.forth.gr/" target="_blank">
-								<img src="logos/ics-forth.jpg" class="img-fluid float-lg-end" alt="ics-forth"
-									width="250" /></a>
+					<a href="https://www.ibm.com/" target="_blank">
+						<img src="logos/ibm-logo-small.svg" class="img-fluid float-lg-end" width="250" /></a>
 
-							<a href="https://data.world/" target="_blank">
-								<img src="logos/data-world.png" class="img-fluid float-lg-end" width="250" /></a>
+					<a href="https://www.ics.forth.gr/" target="_blank">
+						<img src="logos/ics-forth.jpg" class="img-fluid float-lg-end" alt="ics-forth" width="250" /></a>
 
-							<a href="https://www.sigmacomputing.com" target="_blank">
-								<img src="logos/sigma.png" class="img-fluid float-lg-end" alt="sigma" width="250" /></a>
+					<a href="https://data.world/" target="_blank">
+						<img src="logos/data-world.png" class="img-fluid float-lg-end" width="250" /></a>
 
-							<a href="https://indelab.org" target="_blank">
-								<img src="logos/uva.png" class="img-fluid float-lg-end" alt="uva" width="250" /></a>
+					<a href="https://www.sigmacomputing.com" target="_blank">
+						<img src="logos/sigma.png" class="img-fluid float-lg-end" alt="sigma" width="250" /></a>
 
-							<a href="https://www.uni-jena.de/en" target="_blank">
-								<img src="logos/jena.png" class="img-fluid float-lg-end" alt="jena" width="250" /></a>
+					<a href="https://indelab.org" target="_blank">
+						<img src="logos/uva.png" class="img-fluid float-lg-end" alt="uva" width="250" /></a>
 
-							<a href="https://www.supsi.ch/home_en.html" target="_blank">
-								<img src="logos/supsi-logo-en.png" class="img-fluid float-lg-end" alt="supsi"
-									width="250" /></a>
+					<a href="https://www.uni-jena.de/en" target="_blank">
+						<img src="logos/jena.png" class="img-fluid float-lg-end" alt="jena" width="250" /></a>
 
-							<a href="https://iswc2023.semanticweb.org/" target="_blank">
-								<img src="logos/iswc2023.png" class="img-fluid float-lg-end" alt="iswc2023"
-									width="250" /></a>
-						</div>
+					<a href="https://www.supsi.ch/home_en.html" target="_blank">
+						<img src="logos/supsi-logo-en.png" class="img-fluid float-lg-end" alt="supsi" width="250" /></a>
+
+					<a href="https://iswc2023.semanticweb.org/" target="_blank">
+						<img src="logos/iswc2023.png" class="img-fluid float-lg-end" alt="iswc2023" width="250" /></a>
+				</div>
 			</div>
 		</div>
 		<footer>
